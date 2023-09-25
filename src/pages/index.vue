@@ -3,14 +3,20 @@
         <Navigation />
         <div class="page__container">
             <Header />
-            <div class="page__container__contents"></div>
+            <div class="page__container__contents">
+                <div class="summary">
+                    <PortFolio />
+                </div>
+                <div class="table"></div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import Navigation from "@components/organisms/common/Navigation.vue"
-import Header from "@components/organisms/common/Header.vue"
+import Navigation from '@components/organisms/common/Navigation.vue'
+import Header from '@components/organisms/common/Header.vue'
+import PortFolio from '@components/mocules/main/PortFolio.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -39,14 +45,30 @@ import Header from "@components/organisms/common/Header.vue"
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
 
             width: 100%;
             flex: 1;
 
             margin-top: 50px;
+            gap: 24px;
 
-            background-color: $color-gray-300; // TEST CODE
+            .summary {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                width: 100%;
+            }
+            .table {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 100%;
+
+                background-color: $color-gray-300; // TEST CODE
+            }
         }
     }
 }
