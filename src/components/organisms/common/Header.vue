@@ -5,7 +5,7 @@
                 <img src="src/assets/icons/search.svg" alt="" />
                 <input type="text" placeholder="티커, 이름으로 검색" class="input" />
             </div>
-            <span class="header__search-box__date">2023년 09월 23일 오후 1시 21분 43초</span>
+            <span class="header__search-box__date">{{ current }}</span>
         </div>
         <div class="header__profile-box">
             <button class="header__profile-box__alert-button">
@@ -22,7 +22,36 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+const current = ref<string>('')
+const clock = () => {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = date.getMonth()
+    const day = date.getDate()
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+
+    if (hour < 12) {
+        const res = `${year}년 ${month + 1}월 ${day}일 오전${hour < 10 ? `0${hour}` : hour}시 ${minute < 10 ? `0${minute}` : minute}분 ${second < 10 ? `0${second}` : second}초`
+        current.value = res
+    } else {
+        const res = `${year}년 ${month + 1}월 ${day}일 오후${hour < 10 ? `0${hour}` : hour - 12}시 ${minute < 10 ? `0${minute}` : minute}분 ${second < 10 ? `0${second}` : second}초`
+        current.value = res
+    }
+}
+function init() {
+    clock()
+    setInterval(clock, 1000)
+}
+
+onMounted(() => {
+    init()
+})
+</script>
 
 <style lang="scss" scoped>
 .header {

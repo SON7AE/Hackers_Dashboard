@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@types/node": "^20.6.5",
+        "dayjs": "^1.11.10",
         "vue": "^3.3.4",
         "vue-router": "4"
     },
