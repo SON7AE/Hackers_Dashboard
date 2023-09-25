@@ -1,18 +1,22 @@
-# Vue 3 + TypeScript + Vite
+## Vue.js TypeScript를 활용한 Stock Dashboard 포트폴리오 만들기
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 1. 개요
 
-## Recommended IDE Setup
+이 프로젝트는 Vue.js 심화과정입니다. TypeScript와 Composition API를 활용한 개발이며 <br />
+Figma 디자인시안을 토대로 현업에선 어떻게 작업을 하는지, 어떻게 컴포넌트 관리를 하는지 등을 <br />
+함께 살펴보며, 개발을 진행하도록 하겠습니다. <br />
+이 프로젝트를 통해 우리는 멋있는 프런트엔드 개발자가 Vue.js 개발자가 될 수 있습니다.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### 2. 프로젝트 환경 설정
 
-## Type Support For `.vue` Imports in TS
+Vue.js 개발을 보다 효과적으로 진행하기 위해 그리고 훗날 Nuxt.js 입문의 이해도를 높이기 위해 <br />
+Vue.js Router 설정부터 Alias 설정, API 통신을 쉽고 빠르게 진행할 수 있는 플러그인 설치까지 <br />
+함께 진행해보도록 하겠습니다. <br />
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+-   Vite로 Vue.js 세팅 : `yarn create vite`
+-   Vue Router 설치 : `yarn add vue-router@4`
+-   SASS 설치 : `npm install -g sass`
+-   SASS Dev 설치 : `npm install --save-dev sass`
+-   HTTP통신을 위한 AXIOS 설치 : `npm install axios`
+-   Date 포맷팅을 위한 Dayjs 설치 : `npm install dayjs`
+-   Type Node 설치 : `npm install @types/node`
