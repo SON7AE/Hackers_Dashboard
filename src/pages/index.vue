@@ -1,6 +1,7 @@
 <template>
     <div class="page">
         <Navigation />
+        <div class="page__container"></div>
     </div>
 </template>
 
@@ -16,5 +17,17 @@ import Navigation from "@components/organisms/common/Navigation.vue"
 
     width: 100%;
     height: 100vh;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 1440px;
+        height: 100%;
+
+        background-color: $color-gray-100;
+    }
 }
 </style>
