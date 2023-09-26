@@ -8,7 +8,9 @@
                     <PortFolio />
                     <Chart />
                 </div>
-                <div class="table"></div>
+                <div class="table">
+                    <Table />
+                </div>
             </div>
         </div>
     </div>
@@ -19,6 +21,7 @@ import Navigation from "@components/organisms/common/Navigation.vue"
 import Header from "@components/organisms/common/Header.vue"
 import PortFolio from "@components/mocules/main/PortFolio.vue"
 import Chart from "@components/mocules/main/Chart.vue"
+import Table from "@components/mocules/main/Table.vue"
 </script>
 
 <style lang="scss" scoped>
@@ -70,8 +73,7 @@ import Chart from "@components/mocules/main/Chart.vue"
                 justify-content: center;
 
                 width: 100%;
-
-                background-color: $color-gray-300; // TEST CODE
+                height: calc(100vh - 532px);
             }
         }
     }

@@ -116,5 +116,8 @@ const chartStyles = computed(() => {
 
         flex: 1;
     }
+    @media screen and (max-width: 1440px) {
+        max-width: 602px;
+    }
 }
 </style>
