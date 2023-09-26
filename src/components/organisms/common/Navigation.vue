@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import IconButton from "@components/atoms/buttons/Iconbutton.vue"
+import IconButton from '@components/atoms/buttons/Iconbutton.vue'
 </script>
 
 <style lang="scss" scoped>
