@@ -53,7 +53,7 @@
 
         padding: 18px;
 
-        background-image: url('src/assets/images/bg-1.png');
+        background-image: url("src/assets/images/bg-1.png");
         border-radius: 8px 8px 0 0;
 
         &__label {
@@ -75,7 +75,7 @@
                 font-weight: 400;
             }
             .valuation {
-                font-family: 'Public Sans', sans-serif;
+                font-family: "Public Sans", sans-serif;
                 font-size: 50px;
                 font-weight: 700;
 
@@ -91,7 +91,7 @@
 
             width: 100%;
 
-            background-image: url('src/assets/images/bg-2.png');
+            background-image: url("src/assets/images/bg-2.png");
         }
     }
     &__detail {
@@ -122,12 +122,12 @@
                 margin-bottom: 4px;
             }
             .valuation {
-                font-family: 'Public Sans', sans-serif;
+                font-family: "Public Sans", sans-serif;
                 font-weight: 700;
                 font-size: 30px;
             }
             .revenue {
-                font-family: 'Public Sans', sans-serif;
+                font-family: "Public Sans", sans-serif;
                 font-weight: 700;
                 font-size: 22px;
 
@@ -158,7 +158,7 @@
                 gap: 4px;
 
                 &__rate {
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
                     font-weight: 700;
                     font-size: 30px;
                 }

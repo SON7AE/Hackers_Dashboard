@@ -20,3 +20,5 @@ Vue.js Router 설정부터 Alias 설정, API 통신을 쉽고 빠르게 진행�
 -   HTTP통신을 위한 AXIOS 설치 : `npm install axios`
 -   Date 포맷팅을 위한 Dayjs 설치 : `npm install dayjs`
 -   Type Node 설치 : `npm install @types/node`
+-   Chart.js 설치 : `npm install chart.js`
+-   Vue전용 Chart.js 설치 : `yarn add vue-chartjs chart.js`

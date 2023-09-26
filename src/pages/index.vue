@@ -6,6 +6,7 @@
             <div class="page__container__contents">
                 <div class="summary">
                     <PortFolio />
+                    <Chart />
                 </div>
                 <div class="table"></div>
             </div>
@@ -14,9 +15,10 @@
 </template>
 
 <script setup lang="ts">
-import Navigation from '@components/organisms/common/Navigation.vue'
-import Header from '@components/organisms/common/Header.vue'
-import PortFolio from '@components/mocules/main/PortFolio.vue'
+import Navigation from "@components/organisms/common/Navigation.vue"
+import Header from "@components/organisms/common/Header.vue"
+import PortFolio from "@components/mocules/main/PortFolio.vue"
+import Chart from "@components/mocules/main/Chart.vue"
 </script>
 
 <style lang="scss" scoped>
@@ -59,6 +61,8 @@ import PortFolio from '@components/mocules/main/PortFolio.vue'
                 justify-content: space-between;
 
                 width: 100%;
+
+                gap: 24px;
             }
             .table {
                 display: flex;
