@@ -250,6 +250,10 @@ const tableData = ref([
 
             border-bottom: 1px solid $color-gray-300;
 
+            &:last-child {
+                border-bottom: none;
+            }
+
             .company {
                 display: flex;
                 align-items: center;
