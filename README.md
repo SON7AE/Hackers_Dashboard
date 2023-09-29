@@ -21,5 +21,7 @@ Vue.js Router 설정부터 Alias 설정, API 통신을 쉽고 빠르게 진행�
 -   Date 포맷팅을 위한 Dayjs 설치 : `npm install dayjs`
 -   Type Node 설치 : `npm install @types/node`
 -   Chart.js 설치 : `npm install chart.js`
--   Vue전용 Chart.js 설치 : `yarn apdd vue-chartjs chart.js`
+-   Vue전용 Chart.js 설치 :
+    `yarn add vue-chartjs chart.js` <br />
+    `yarn add vue-chart-3 chart.js`
 -   상태관리 라이브러리 (Store 관리) Pinia 설치 : `yarn add pinia`

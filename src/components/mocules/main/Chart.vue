@@ -3,8 +3,8 @@
         <div class="chart__header">
             <span class="chart__header__title">요약</span>
             <div class="chart__header__button-box">
-                <button class="button">3일</button>
-                <button class="button">1주일</button>
+                <!-- <button class="button">3일</button>
+                <button class="button">1주일</button> -->
                 <button class="button">1개월</button>
                 <button class="button">3개월</button>
                 <button class="button">6개월</button>
@@ -12,30 +12,67 @@
             </div>
         </div>
         <div class="chart__body">
-            <Line :data="chartConfig.data" :options="chartConfig.options" :style="chartStyles" />
+            <canvas id="myChart" style="max-width: 100%; max-height: 300px"></canvas>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
-import { Line } from 'vue-chartjs'
-import * as chartConfig from '@components/mocules/main/chartConfig.ts'
-// CALL STOCK API
+import Chart, { ChartConfiguration, ChartItem } from 'chart.js/auto'
+import { onMounted } from 'vue'
 import api from '@apis/chart'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-const chartStyles = computed(() => {
-    return {
-        height: `auto`,
-        position: 'relative',
-    }
+api.getStock('AAPL', 'day').then((res: any) => {
+    console.log(res)
+    graphData.datasets[0].data = res.data.results.map((item: any) => {
+        return item.o
+    })
 })
 
-api.getStock('NDAQ', 'day')
-// api.getStock()
+const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+const graphData = {
+    labels: labels,
+    datasets: [
+        {
+            label: 'NASDAQ',
+            data: [],
+            borderColor: '#32D583',
+            backgroundColor: 'rgba(50, 213, 131, 0.16)',
+            tension: 0.1,
+            fill: true,
+        },
+    ],
+}
+
+const config: ChartConfiguration = {
+    type: 'line',
+    data: graphData,
+    options: {
+        plugins: {
+            // Label 지우는 속성
+            legend: {
+                display: false,
+            },
+            subtitle: {
+                display: true,
+                text: 'NASDAQ',
+                padding: 12,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                type: 'linear',
+                grace: '100%',
+            },
+        },
+    },
+}
+
+onMounted(() => {
+    const ctx = <ChartItem>document.getElementById('myChart')
+    new Chart(ctx, config)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -117,13 +154,12 @@ api.getStock('NDAQ', 'day')
         align-items: center;
         justify-content: center;
 
-        width: 100%;
-
         flex: 1;
+
+        width: 100%;
     }
     @media screen and (max-width: 1440px) {
         max-width: 602px;
     }
 }
 </style>
-@/apis/chart
