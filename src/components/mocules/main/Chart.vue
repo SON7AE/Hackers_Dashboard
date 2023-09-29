@@ -54,26 +54,41 @@ const config: ChartConfiguration = {
             },
         },
         scales: {
-            // y: {
-            //     beginAtZero: true,
-            //     type: 'linear',
-            //     grace: '100%',
-            // },
+            x: {
+                grid: {
+                    display: true,
+                    tickBorderDash: [0, 10],
+                },
+            },
+            y: {
+                type: 'linear',
+                grace: '100%',
+                grid: {
+                    display: true,
+                    tickBorderDash: [0, 10],
+                },
+            },
         },
     },
 }
 
-onMounted(() => {
-    const ctx = <ChartItem>document.getElementById('myChart')
-    const chart = new Chart(ctx, config)
-
-    api.getStock('AAPL', 'day').then((res: any) => {
+async function getStock() {
+    await api.getStock('AAPL', 'day').then((res: any) => {
         graphData.value = res.data.results.map((item: any) => {
             return item.o
         })
         chartData.value.datasets[0].data = graphData.value
     })
-    chart.update()
+}
+
+function createChart() {
+    const ctx = <ChartItem>document.getElementById('myChart')
+    new Chart(ctx, config)
+}
+
+onMounted(() => {
+    getStock()
+    setTimeout(createChart, 500)
 })
 </script>
 
@@ -88,7 +103,6 @@ onMounted(() => {
     height: calc(350px - 36px);
 
     padding: 18px;
-    // gap: 36px;
 
     border-radius: 8px;
     border: 1px solid $color-gray-200;
