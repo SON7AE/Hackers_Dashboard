@@ -18,19 +18,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js"
-import { Line } from "vue-chartjs"
-import * as chartConfig from "@components/mocules/main/chartConfig.ts"
+import { computed } from 'vue'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+import { Line } from 'vue-chartjs'
+import * as chartConfig from '@components/mocules/main/chartConfig.ts'
+// CALL STOCK API
+import api from '@apis/chart'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const chartStyles = computed(() => {
     return {
         height: `auto`,
-        position: "relative",
+        position: 'relative',
     }
 })
+
+api.getStock('NDAQ', 'day')
+// api.getStock()
 </script>
 
 <style lang="scss" scoped>
@@ -121,3 +126,4 @@ const chartStyles = computed(() => {
     }
 }
 </style>
+@/apis/chart
