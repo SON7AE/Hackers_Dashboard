@@ -19,18 +19,12 @@
 
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from 'chart.js/auto'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import api from '@apis/chart'
 
-api.getStock('AAPL', 'day').then((res: any) => {
-    console.log(res)
-    graphData.datasets[0].data = res.data.results.map((item: any) => {
-        return item.o
-    })
-})
-
+const graphData = ref<Number[]>([])
 const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-const graphData = {
+const chartData = ref<any>({
     labels: labels,
     datasets: [
         {
@@ -42,11 +36,11 @@ const graphData = {
             fill: true,
         },
     ],
-}
+})
 
 const config: ChartConfiguration = {
     type: 'line',
-    data: graphData,
+    data: chartData.value,
     options: {
         plugins: {
             // Label 지우는 속성
@@ -60,18 +54,26 @@ const config: ChartConfiguration = {
             },
         },
         scales: {
-            y: {
-                beginAtZero: true,
-                type: 'linear',
-                grace: '100%',
-            },
+            // y: {
+            //     beginAtZero: true,
+            //     type: 'linear',
+            //     grace: '100%',
+            // },
         },
     },
 }
 
 onMounted(() => {
     const ctx = <ChartItem>document.getElementById('myChart')
-    new Chart(ctx, config)
+    const chart = new Chart(ctx, config)
+
+    api.getStock('AAPL', 'day').then((res: any) => {
+        graphData.value = res.data.results.map((item: any) => {
+            return item.o
+        })
+        chartData.value.datasets[0].data = graphData.value
+    })
+    chart.update()
 })
 </script>
 

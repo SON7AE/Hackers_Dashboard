@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_KEY = 'iqAG3HSss7EBMSybOb0mPJCwEPOs7rIC'
+const API_KEY = 'XD0augYTunhn7DFXijzUPhHPXTWSxrt4'
 
 export default {
     async getStock(ticker: string, timeSpan: string) {
