@@ -43,6 +43,14 @@
                                 <span class="market-index__header__label">시장 지수</span>
                                 <span class="market-index__header__update">5분 전 업데이트됨</span>
                             </div>
+                            <div class="market-index__body">
+                                <div class="market-index__body__column">
+                                    <div>US 30</div>
+                                    <div>33,976.0</div>
+                                    <div>-94.4</div>
+                                    <div>-0.28%</div>
+                                </div>
+                            </div>
                         </div>
                     </BasicLayout>
                     <BasicLayout>
@@ -250,6 +258,13 @@ import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
                 color: $color-gray-400;
                 font-size: 14px;
                 font-weight: 700;
+            }
+        }
+        &__body {
+            display: flex;
+            flex-direction: column;
+
+            &__column {
             }
         }
     }
