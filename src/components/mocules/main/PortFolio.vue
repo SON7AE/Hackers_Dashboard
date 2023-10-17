@@ -17,7 +17,7 @@
             <div class="port-folio__detail__return">
                 <span class="label">수익률</span>
                 <div class="data-box">
-                    <img src="src/assets/icons/arrow-up.svg" alt="" />
+                    <img src="src/assets/icons/increse.svg" alt="" />
                     <span class="data-box__rate">22.96%</span>
                 </div>
             </div>
