@@ -3,7 +3,7 @@
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-left.svg" alt="" />
         </button>
-        <button v-for="index in pages" :key="index" class="pagination__button">{{ index }}</button>
+        <button v-for="index in pages[step]" :key="index" class="pagination__button">{{ index }}</button>
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-right.svg" alt="" />
         </button>
@@ -37,15 +37,20 @@ const step = ref<number>(0)
 const pages = computed(() => {
     const newArr: number[] = new Array()
 
-    const length = data.value.length
-    const divide = Math.ceil(length / 10)
-
-    for (let i = 1; i <= divide; i++) {
-        // 배열 0부터 n개씩 잘라 새 배열에 넣기
+    for (let i = 1; i <= data.value.length; i++) {
         newArr.push(i)
     }
 
-    return newArr
+    const length = newArr.length
+    const divide = Math.floor(length / 10) + (Math.floor(length % 10) > 0 ? 1 : 0)
+    const res = new Array()
+
+    for (let i = 0; i <= divide; i++) {
+        // 배열 0부터 n개씩 잘라 새 배열에 넣기
+        res.push(newArr.splice(0, 10))
+    }
+
+    return res
 })
 </script>
 
