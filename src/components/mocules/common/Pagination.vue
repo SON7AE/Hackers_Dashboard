@@ -3,7 +3,7 @@
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-left.svg" alt="" />
         </button>
-        <button v-for="index in pages[step]" :key="index" class="pagination__button" @click="movePage(index)">{{ index }}</button>
+        <button v-for="index in pages[step]" :key="index" class="pagination__button" @click="movePage(index)" :class="{ active: index === page }">{{ index }}</button>
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-right.svg" alt="" />
         </button>
@@ -54,9 +54,12 @@ const pages = computed(() => {
 })
 
 // 해당 페이지로 이동
+// 페이지네이션 버튼 Active Class 기능
+const page = ref<number>(1)
 const emit = defineEmits(["send-event"])
 const movePage = (pageIdx: number) => {
     emit("send-event", pageIdx)
+    page.value = pageIdx
 }
 </script>
 
@@ -93,6 +96,12 @@ const movePage = (pageIdx: number) => {
         cursor: pointer;
 
         &:hover {
+            background-color: $color-gray-100;
+            border-radius: 4px;
+
+            color: $color-black-900;
+        }
+        &.active {
             background-color: $color-gray-100;
             border-radius: 4px;
 
