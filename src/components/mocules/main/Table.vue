@@ -43,14 +43,17 @@
                 </div>
             </div>
         </div>
-        <div class="table__footer"></div>
+        <div class="table__footer">
+            <Pagination :data="tableData" />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import Pagination from "@components/mocules/common/Pagination.vue"
+import { ref, computed } from "vue"
 
-const menuList = ref<string[]>(['이름', '티커', '수량', '1주당 평균', '현재가', '평가액', '평가손익', '손익률'])
+const menuList = ref<string[]>(["이름", "티커", "수량", "1주당 평균", "현재가", "평가액", "평가손익", "손익률"])
 
 // MenuList 길이에 따른 Dynamic Width
 const width = computed((): string => {
@@ -61,103 +64,125 @@ const width = computed((): string => {
 // 테이블 더미데이터
 const tableData = ref([
     {
-        icon: 'Apple.svg',
-        name: '애플',
-        ticker: 'AAPL',
-        quantity: '237',
-        average: '163.17',
-        current: '173.93',
-        valuation: '41221.41',
+        icon: "Apple.svg",
+        name: "애플",
+        ticker: "AAPL",
+        quantity: "237",
+        average: "163.17",
+        current: "173.93",
+        valuation: "41221.41",
         profit: 2550.12,
         rate: 6.59,
     },
     {
-        icon: 'Microsoft.svg',
-        name: '마이크로소프트',
-        ticker: 'MSFT',
-        quantity: '159',
-        average: '287.187',
-        current: '319.53',
-        valuation: '50805.27',
+        icon: "Microsoft.svg",
+        name: "마이크로소프트",
+        ticker: "MSFT",
+        quantity: "159",
+        average: "287.187",
+        current: "319.53",
+        valuation: "50805.27",
         profit: 5033.94,
         rate: 10.99,
     },
     {
-        icon: 'Meta.svg',
-        name: '메타',
-        ticker: 'META',
-        quantity: '148',
-        average: '120.20',
-        current: '295.73',
-        valuation: '43768.04',
+        icon: "Meta.svg",
+        name: "메타",
+        ticker: "META",
+        quantity: "148",
+        average: "120.20",
+        current: "295.73",
+        valuation: "43768.04",
         profit: 25978.44,
         rate: 146.03,
     },
     {
-        icon: 'Google.svg',
-        name: '알파벳 C',
-        ticker: 'GOOG',
-        quantity: '120',
-        average: '136.56',
-        current: '130.08',
-        valuation: '15609.6',
+        icon: "Google.svg",
+        name: "알파벳 C",
+        ticker: "GOOG",
+        quantity: "120",
+        average: "136.56",
+        current: "130.08",
+        valuation: "15609.6",
         profit: -777.6,
         rate: -4.75,
     },
     {
-        icon: 'IBM.svg',
-        name: 'IBM',
-        ticker: 'IBM',
-        quantity: '101',
-        average: '87.90',
-        current: '147.38',
-        valuation: '14885.38',
+        icon: "IBM.svg",
+        name: "IBM",
+        ticker: "IBM",
+        quantity: "101",
+        average: "87.90",
+        current: "147.38",
+        valuation: "14885.38",
         profit: 60007.48,
         rate: 67.66,
     },
     {
-        icon: 'Pepsi.svg',
-        name: '펩시콜라',
-        ticker: 'PEP',
-        quantity: '92',
-        average: '172.85',
-        current: '175.38',
-        valuation: '16134.96',
+        icon: "Pepsi.svg",
+        name: "펩시콜라",
+        ticker: "PEP",
+        quantity: "92",
+        average: "172.85",
+        current: "175.38",
+        valuation: "16134.96",
         profit: 232.76,
         rate: 1.46,
     },
     {
-        icon: 'Nvidia.svg',
-        name: '엔비디아',
-        ticker: 'NVDA',
-        quantity: '138',
-        average: '196.20',
-        current: '420.75',
-        valuation: '13874.72',
+        icon: "Nvidia.svg",
+        name: "엔비디아",
+        ticker: "NVDA",
+        quantity: "138",
+        average: "196.20",
+        current: "420.75",
+        valuation: "13874.72",
         profit: 30397.9,
         rate: 247.6,
     },
     {
-        icon: 'Tesla.svg',
-        name: '테슬라',
-        ticker: 'TSLA',
-        quantity: '900',
-        average: '396.19',
-        current: '245.07',
-        valuation: '39433.88',
+        icon: "Tesla.svg",
+        name: "테슬라",
+        ticker: "TSLA",
+        quantity: "900",
+        average: "396.19",
+        current: "245.07",
+        valuation: "39433.88",
         profit: -45039.42,
         rate: -59.31,
     },
     {
-        icon: 'Netflix.svg',
-        name: '넷플릭스',
-        ticker: 'NFLX',
-        quantity: '312',
-        average: '785.32',
-        current: '381.14',
-        valuation: '13564.91',
+        icon: "Netflix.svg",
+        name: "넷플릭스",
+        ticker: "NFLX",
+        quantity: "312",
+        average: "785.32",
+        current: "381.14",
+        valuation: "13564.91",
         profit: -22110.32,
         rate: -48.57,
+    },
+    {
+        icon: "Volkswagen.svg",
+        name: "폭스바겐",
+        ticker: "VOWG",
+        quantity: "83",
+        average: "75.32",
+        current: "105.14",
+        valuation: "22991.10",
+        profit: 2423.21,
+        rate: 34.82,
+    },
+    {
+        icon: "Disney.svg",
+        name: "디즈니",
+        ticker: "DIS",
+        quantity: "100",
+        average: "165.32",
+        current: "85.14",
+        valuation: "7856.12",
+        profit: -5057.92,
+        rate: -50.57,
     },
 ])
 </script>
@@ -304,7 +329,7 @@ const tableData = ref([
                     border-radius: 16px;
                     background: $color-success-050;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
                     color: $color-success-600;
                 }
             }
@@ -320,7 +345,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 8px;
                 }
@@ -337,7 +362,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 8px;
                 }
@@ -354,7 +379,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 8px;
                 }
@@ -371,7 +396,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 8px;
                 }
@@ -388,7 +413,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 8px;
                 }
@@ -405,7 +430,7 @@ const tableData = ref([
 
                     width: 100%;
 
-                    font-family: 'Public Sans', sans-serif;
+                    font-family: "Public Sans", sans-serif;
 
                     margin-right: 16px;
                 }
