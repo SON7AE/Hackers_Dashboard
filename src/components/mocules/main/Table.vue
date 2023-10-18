@@ -1310,7 +1310,6 @@ const getData = () => {
 }
 
 const reset = (pageIdx: number) => {
-    console.log(pageIdx)
     currentPage.value = pageIdx
 }
 
