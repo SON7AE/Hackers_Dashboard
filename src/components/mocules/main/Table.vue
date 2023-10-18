@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="table__body">
-            <div v-for="item in tableData" :key="item.name" class="table__body__list">
+            <div v-for="item in newTableData[currentPage - 1]" :key="item.name" class="table__body__list">
                 <div class="company" :style="{ width: `${width}%` }">
                     <div class="company__logo">
                         <img :src="`src/assets/icons/company/${item.icon}`" alt="" class="" />
@@ -44,14 +44,26 @@
             </div>
         </div>
         <div class="table__footer">
-            <Pagination :data="tableData" />
+            <Pagination :data="tableData" @send-event="reset" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import Pagination from "@components/mocules/common/Pagination.vue"
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
+
+interface List {
+    icon: string
+    name: string
+    ticker: string
+    quantity: string
+    average: string
+    current: string
+    valuation: string
+    profit: number
+    rate: number
+}
 
 const menuList = ref<string[]>(["이름", "티커", "수량", "1주당 평균", "현재가", "평가액", "평가손익", "손익률"])
 
@@ -62,7 +74,7 @@ const width = computed((): string => {
 })
 
 // 테이블 더미데이터
-const tableData = ref([
+const tableData = ref<List[]>([
     {
         icon: "Apple.svg",
         name: "애플",
@@ -1284,6 +1296,27 @@ const tableData = ref([
     },
     // 여기까지
 ])
+
+const newTableData = ref<any>([])
+const currentPage = ref<number>(1)
+const listCount = ref<number>(10)
+
+const getData = () => {
+    for (let i = 0; i < tableData.value.length; i++) {
+        newTableData.value.push(tableData.value.splice(0, listCount.value))
+    }
+
+    return newTableData.value
+}
+
+const reset = (pageIdx: number) => {
+    console.log(pageIdx)
+    currentPage.value = pageIdx
+}
+
+onMounted(() => {
+    getData()
+})
 </script>
 
 <style lang="scss" scoped>

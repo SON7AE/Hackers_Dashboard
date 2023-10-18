@@ -3,7 +3,7 @@
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-left.svg" alt="" />
         </button>
-        <button v-for="index in pages[step]" :key="index" class="pagination__button">{{ index }}</button>
+        <button v-for="index in pages[step]" :key="index" class="pagination__button" @click="movePage(index)">{{ index }}</button>
         <button class="pagination__button">
             <img src="src/assets/icons/arrow-right.svg" alt="" />
         </button>
@@ -52,6 +52,12 @@ const pages = computed(() => {
 
     return res
 })
+
+// 해당 페이지로 이동
+const emit = defineEmits(["send-event"])
+const movePage = (pageIdx: number) => {
+    emit("send-event", pageIdx)
+}
 </script>
 
 <style lang="scss" scoped>
