@@ -38,14 +38,7 @@
                 </BasicLayout>
                 <div class="section">
                     <MarketIndex />
-                    <BasicLayout>
-                        <div class="trading-trends">
-                            <div class="trading-trends__header">
-                                <span class="trading-trends__header__label">매매 동향</span>
-                                <span class="trading-trends__header__update">5분 전 업데이트됨</span>
-                            </div>
-                        </div>
-                    </BasicLayout>
+                    <TradingTrends />
                 </div>
             </div>
         </div>
@@ -57,6 +50,7 @@ import Navigation from "@components/organisms/common/Navigation.vue"
 import Header from "@components/organisms/common/Header.vue"
 import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
 import MarketIndex from "@components/mocules/about/MarketIndex.vue"
+import TradingTrends from "@components/mocules/about/TradingTrends.vue"
 </script>
 
 <style lang="scss" scoped>
@@ -224,28 +218,5 @@ import MarketIndex from "@components/mocules/about/MarketIndex.vue"
     justify-content: center;
 
     gap: 16px;
-
-    .trading-trends {
-        width: 375px;
-        height: 328px; // 추후삭제
-
-        &__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            &__label {
-                color: $color-gray-800;
-                font-size: 18px;
-                font-weight: 600;
-                line-height: 18px;
-            }
-            &__update {
-                color: $color-gray-400;
-                font-size: 14px;
-                font-weight: 600;
-            }
-        }
-    }
 }
 </style>
