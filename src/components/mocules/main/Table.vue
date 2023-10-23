@@ -3,7 +3,7 @@
         <div class="table__header">
             <div v-for="item in menuList" :key="item" class="table__header__menu" :style="{ width: `${width}%` }">
                 <span class="label">{{ item }}</span>
-                <button class="button">
+                <button class="button" @click="sortList(item)">
                     <img src="src/assets/icons/Sort.svg" alt="" />
                 </button>
             </div>
@@ -72,6 +72,32 @@ const width = computed((): string => {
     const res = String(100 / menuList.value.length + 1)
     return res
 })
+
+// 테이블 헤더 버튼 - sort 기능
+const sortList = (menu: string) => {
+    if (menu === "이름") {
+        newTableData.value[currentPage.value - 1].sort((a: List, b: List) => {
+            if (a.name > b.name) return 1
+            if (a.name < b.name) return -1
+
+            return 0
+        })
+    }
+    if (menu === "티커") {
+        newTableData.value[currentPage.value - 1].sort((a: List, b: List) => {
+            if (a.ticker > b.ticker) return 1
+            if (a.ticker < b.ticker) return -1
+
+            return 0
+        })
+    }
+    if (menu === "수량") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => +b.quantity - +a.quantity)
+    if (menu === "1주당 평균") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => +b.average - +a.average)
+    if (menu === "현재가") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => +b.current - +a.current)
+    if (menu === "평가액") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => +b.valuation - +a.valuation)
+    if (menu === "평가손익") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => b.profit - a.profit)
+    if (menu === "손익률") newTableData.value[currentPage.value - 1].sort((a: List, b: List) => b.rate - a.rate)
+}
 
 // 테이블 더미데이터
 const tableData = ref<List[]>([
