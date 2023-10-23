@@ -62,6 +62,7 @@ const movePage = (pageIdx: number) => {
     page.value = pageIdx
 }
 const moveToPrev = () => {}
+const moveToNext = () => {}
 </script>
 
 <style lang="scss" scoped>

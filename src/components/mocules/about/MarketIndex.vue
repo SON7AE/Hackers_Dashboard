@@ -80,6 +80,7 @@ const marketIndexList = ref<Item[]>([
         color: "",
     },
 ])
+
 onMounted(() => {
     marketIndexList.value.forEach((item: Item) => {
         if (item.rate === 0 || item.rate === 0.0) {
