@@ -3,12 +3,12 @@
         <div class="stock-info">
             <div class="stock-info__header">
                 <div class="stock-info__header__logo">
-                    <img src="src/assets/icons/company/Netflix.svg" alt="" />
+                    <img :src="`src/assets/icons/company/${store.ticker_en}.svg`" alt="" />
                 </div>
                 <div class="stock-info__header__title">
-                    <span class="ticker-en">Netflix Inc.</span>
+                    <span class="ticker-en">{{ store.ticker_en }}</span>
                     <div class="ticker-ko">
-                        <span class="ticker-ko__name">넷플릭스</span>
+                        <span class="ticker-ko__name">{{ store.ticker_ko }}</span>
                         <div class="ticker-ko__market">
                             <span>🇺🇸</span>
                             <span class="ticker-ko__market__name">NASDAQ</span>
@@ -37,7 +37,10 @@
 
 <script setup lang="ts">
 import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
-import Chart from "@components/mocules/main/Chart.vue"
+import Chart from "@components/mocules/about/Chart.vue"
+import { useStore } from "@store/index"
+
+const store = useStore()
 </script>
 
 <style lang="scss" scoped>
@@ -65,7 +68,7 @@ import Chart from "@components/mocules/main/Chart.vue"
             height: 60px;
 
             border-radius: 10px;
-            background-color: $color-black-900;
+            // background-color: $color-black-900;
 
             img {
                 width: 75%;

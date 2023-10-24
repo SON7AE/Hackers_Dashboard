@@ -3,7 +3,7 @@
         <div class="header__search-box">
             <div class="header__search-box__search">
                 <img src="src/assets/icons/search.svg" alt="" />
-                <input type="text" placeholder="티커, 이름으로 검색" class="input" />
+                <input v-model="searchValue" type="text" placeholder="티커, 이름으로 검색" class="input" @keydown.enter="search" />
             </div>
             <span class="header__search-box__date">{{ current }}</span>
         </div>
@@ -23,9 +23,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue"
+import { useStore } from "@store/index"
+import router from "@/routes"
 
-const current = ref<string>('')
+const current = ref<string>("")
 const clock = () => {
     const date = new Date()
     const year = date.getFullYear()
@@ -46,6 +48,36 @@ const clock = () => {
 function init() {
     clock()
     setInterval(clock, 1000)
+}
+
+const store = useStore()
+const searchValue = ref<string>("")
+function search() {
+    // store의 state에 검색 값을 할당
+    if (searchValue.value === "AAPL") {
+        store.ticker_ko = "애플"
+        store.ticker_en = "Apple"
+    }
+    if (searchValue.value === "GOOG") {
+        store.ticker_ko = "구글"
+        store.ticker_en = "Google"
+    }
+    if (searchValue.value === "NFLX") {
+        store.ticker_ko = "넷플릭스"
+        store.ticker_en = "Netfilx"
+    }
+    if (searchValue.value === "AMZN") {
+        store.ticker_ko = "아마존"
+        store.ticker_en = "Amazon"
+    }
+    if (searchValue.value === "MSFT") {
+        store.ticker_ko = "마이크로소프트"
+        store.ticker_en = "Microsoft"
+    }
+    store.searchValue = searchValue.value
+
+    // about 페이지로 이동
+    router.push({ name: "About", query: { ticker: searchValue.value } })
 }
 
 onMounted(() => {

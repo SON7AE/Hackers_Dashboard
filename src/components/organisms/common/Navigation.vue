@@ -1,12 +1,12 @@
 <template>
     <div class="navigation">
-        <img src="src/assets/images/logo.png" alt="" />
+        <img src="src/assets/images/logo.png" alt="" class="navigation__logo" @click="toHome" />
         <div class="navigation__menu-box">
             <div class="navigation__menu-box__top">
                 <RouterLink to="/" class="menu">
                     <IconButton :icon="'folder'" :label="'내 포트폴리오'" />
                 </RouterLink>
-                <RouterLink to="/" class="menu">
+                <RouterLink to="/about" class="menu">
                     <IconButton :icon="'chart'" :label="'종목 검색기'" />
                 </RouterLink>
             </div>
@@ -20,7 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import IconButton from '@components/atoms/buttons/Iconbutton.vue'
+import router from "@/routes"
+import IconButton from "@components/atoms/buttons/Iconbutton.vue"
+
+function toHome() {
+    router.push({ path: "/", name: "Home" })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -40,6 +45,9 @@ import IconButton from '@components/atoms/buttons/Iconbutton.vue'
 
     background-color: $color-white-000;
 
+    &__logo {
+        cursor: pointer;
+    }
     &__menu-box {
         display: flex;
         flex-direction: column;

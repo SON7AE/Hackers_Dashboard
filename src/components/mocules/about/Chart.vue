@@ -18,15 +18,16 @@
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
 import { onMounted, ref } from "vue"
-import api from "@apis/chart"
+import { useStore } from "@store/index"
 
-const graphData = ref<Number[]>([])
+const store = useStore()
+
 const labels = ref<string[]>(["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"])
 const chartData = ref<any>({
     labels: labels,
     datasets: [
         {
-            label: "NASDAQ",
+            label: store.searchValue,
             data: [],
             borderColor: "#32D583",
             backgroundColor: "rgba(50, 213, 131, 0.16)",
@@ -47,7 +48,7 @@ const config: ChartConfiguration = {
             },
             subtitle: {
                 display: true,
-                text: "NASDAQ",
+                text: store.searchValue,
                 padding: 12,
             },
         },
@@ -83,12 +84,9 @@ function showGraph(filter: string) {
 }
 
 async function getStock() {
-    await api.getStock("AAPL", "day").then((res: any) => {
-        graphData.value = res.data.results.map((item: any) => {
-            return item.o
-        })
-        chartData.value.datasets[0].data = graphData.value
-    })
+    store.getStock()
+    chartData.value.datasets[0].data = store.graphData
+    setTimeout(createChart, 1000)
 }
 
 function createChart() {
@@ -98,7 +96,6 @@ function createChart() {
 
 onMounted(() => {
     getStock()
-    setTimeout(createChart, 1000)
 })
 </script>
 
