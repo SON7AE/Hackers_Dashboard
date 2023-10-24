@@ -5,7 +5,7 @@ const API_KEY = "R7SL6mxl6699GWChvW3fpsehxTJKnwG9"
 export default {
     async getStock(ticker: string, timeSpan: string) {
         // ticker: string, timeSpan: string, startDate: string, endDate: string
-        const res = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/${timeSpan}/2023-01-01/2023-09-30?adjusted=true&sort=asc&limit=12&apiKey=${API_KEY}`)
+        const res = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${ticker}/range/1/${timeSpan}/2023-01-01/2023-10-24?adjusted=true&sort=asc&limit=12&apiKey=${API_KEY}`)
 
         return res
     },

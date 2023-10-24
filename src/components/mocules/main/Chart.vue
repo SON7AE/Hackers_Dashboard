@@ -5,10 +5,10 @@
             <div class="chart__header__button-box">
                 <!-- <button class="button">3일</button>
                 <button class="button">1주일</button> -->
-                <button class="button" @click="showGraph">1개월</button>
-                <button class="button" @click="showGraph">3개월</button>
-                <button class="button" @click="showGraph">6개월</button>
-                <button class="button" @click="showGraph">12개월</button>
+                <button class="button" @click="showGraph('1개월')">1개월</button>
+                <button class="button" @click="showGraph('3개월')">3개월</button>
+                <button class="button" @click="showGraph('6개월')">6개월</button>
+                <button class="button" @click="showGraph('12개월')">12개월</button>
             </div>
         </div>
         <div class="chart__body">
@@ -23,7 +23,7 @@ import { onMounted, ref } from "vue"
 import api from "@apis/chart"
 
 const graphData = ref<Number[]>([])
-const labels = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+const labels = ref<string[]>(["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"])
 const chartData = ref<any>({
     labels: labels,
     datasets: [
@@ -72,8 +72,16 @@ const config: ChartConfiguration = {
     },
 }
 
-function showGraph() {
-    console.log("This is showing graph function")
+function showGraph(filter: string) {
+    if (filter === "1개월") {
+        console.log("1개월 버튼이 클릭되었습니다.")
+    } else if (filter === "3개월") {
+        console.log("3개월 버튼이 클릭되었습니다.")
+    } else if (filter === "6개월") {
+        console.log("6개월 버튼이 클릭되었습니다.")
+    } else {
+        console.log("12개월 버튼이 클릭되었습니다.")
+    }
 }
 
 async function getStock() {
