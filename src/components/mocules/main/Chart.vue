@@ -5,10 +5,10 @@
             <div class="chart__header__button-box">
                 <!-- <button class="button">3일</button>
                 <button class="button">1주일</button> -->
-                <button class="button">1개월</button>
-                <button class="button">3개월</button>
-                <button class="button">6개월</button>
-                <button class="button">12개월</button>
+                <button class="button" @click="showGraph">1개월</button>
+                <button class="button" @click="showGraph">3개월</button>
+                <button class="button" @click="showGraph">6개월</button>
+                <button class="button" @click="showGraph">12개월</button>
             </div>
         </div>
         <div class="chart__body">
@@ -18,20 +18,20 @@
 </template>
 
 <script setup lang="ts">
-import Chart, { ChartConfiguration, ChartItem } from 'chart.js/auto'
-import { onMounted, ref } from 'vue'
-import api from '@apis/chart'
+import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
+import { onMounted, ref } from "vue"
+import api from "@apis/chart"
 
 const graphData = ref<Number[]>([])
-const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
+const labels = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 const chartData = ref<any>({
     labels: labels,
     datasets: [
         {
-            label: 'NASDAQ',
+            label: "NASDAQ",
             data: [],
-            borderColor: '#32D583',
-            backgroundColor: 'rgba(50, 213, 131, 0.16)',
+            borderColor: "#32D583",
+            backgroundColor: "rgba(50, 213, 131, 0.16)",
             tension: 0.1,
             fill: true,
         },
@@ -39,7 +39,7 @@ const chartData = ref<any>({
 })
 
 const config: ChartConfiguration = {
-    type: 'line',
+    type: "line",
     data: chartData.value,
     options: {
         plugins: {
@@ -49,7 +49,7 @@ const config: ChartConfiguration = {
             },
             subtitle: {
                 display: true,
-                text: 'NASDAQ',
+                text: "NASDAQ",
                 padding: 12,
             },
         },
@@ -61,8 +61,8 @@ const config: ChartConfiguration = {
                 },
             },
             y: {
-                type: 'linear',
-                grace: '100%',
+                type: "linear",
+                grace: "100%",
                 grid: {
                     display: true,
                     tickBorderDash: [0, 10],
@@ -72,8 +72,12 @@ const config: ChartConfiguration = {
     },
 }
 
+function showGraph() {
+    console.log("This is showing graph function")
+}
+
 async function getStock() {
-    await api.getStock('AAPL', 'day').then((res: any) => {
+    await api.getStock("AAPL", "day").then((res: any) => {
         graphData.value = res.data.results.map((item: any) => {
             return item.o
         })
@@ -82,13 +86,13 @@ async function getStock() {
 }
 
 function createChart() {
-    const ctx = <ChartItem>document.getElementById('myChart')
+    const ctx = <ChartItem>document.getElementById("myChart")
     new Chart(ctx, config)
 }
 
 onMounted(() => {
     getStock()
-    setTimeout(createChart, 500)
+    setTimeout(createChart, 1000)
 })
 </script>
 
