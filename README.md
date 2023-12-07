@@ -25,3 +25,6 @@ Vue.js Router 설정부터 Alias 설정, API 통신을 쉽고 빠르게 진행�
     `yarn add vue-chartjs chart.js` <br />
     `yarn add vue-chart-3 chart.js`
 -   상태관리 라이브러리 (Store 관리) Pinia 설치 : `yarn add pinia`
+-   Tailwind CSS 라이브러리 설치 :
+    `npm install -D tailwindcss postcss autoprefixer` <br />
+    `npx tailwindcss init -p` <br />
