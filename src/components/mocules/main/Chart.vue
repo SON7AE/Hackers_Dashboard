@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
-import { onMounted, ref, nextTick } from "vue"
+import { onMounted, ref } from "vue"
 import api from "@apis/chart"
 import dayjs from "dayjs"
 
@@ -105,7 +105,7 @@ const config: ChartConfiguration = {
 }
 
 // 필터 클릭시, 동작 함수
-function drawChart(data: any, index: number) {
+async function drawChart(data: any, index: number) {
     buttons.value.forEach((item: any) => {
         item.active = false
     })
@@ -122,32 +122,17 @@ function drawChart(data: any, index: number) {
         }
         labels.value = [...newLabel].reverse()
 
-        // 30일 기간동안의 데이터만 출력
-
-        getStock("month")
-            .then(() => {
-                setTimeout(() => {
-                    createChart()
-                    isLoading.value = false
-                    console.log("1")
-                }, 2000)
-                console.log("2")
-            })
-            .then(() => {
-                console.log("3")
-
-                // 임의로 30개 자름
-                chartData.value.datasets[0].data = graphData.value.slice(graphData.value.length - 31, graphData.value.length - 1)
-            })
+        getStock("day").then(() => {
+            // 임의로 30개 자름
+            chartData.value.datasets[0].data = graphData.value.slice(graphData.value.length - 31, graphData.value.length - 1)
+        })
+        getChart()
     } else if (data.label === "12개월") {
         isLoading.value = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 
         getStock("month")
-        setTimeout(() => {
-            createChart()
-            isLoading.value = false
-        }, 2000)
+        getChart()
     }
 }
 
@@ -163,6 +148,8 @@ async function getStock(timeSpan: string) {
                 return item.o
             })
             chartData.value.datasets[0].data = graphData.value
+
+            return graphData.value
         })
     } catch (error) {
         console.log(error)
@@ -176,28 +163,23 @@ function createChart() {
         chartWithKey.destroy()
     }
     const ctx = <ChartItem>document.getElementById("myChart")
-    // const ctx = ((<ChartItem>document.getElementById("myChart")) as HTMLCanvasElement).getContext("2d")
-    // const ctx = (document.getElementById("myChart") as HTMLCanvasElement).getContext("2d")
     if (ctx !== null) {
         new Chart(ctx, config)
     }
 }
 
-onMounted(() => {
-    getStock("month")
-    isLoading.value = true
-
+// 차트호출 함수
+function getChart() {
     setTimeout(() => {
-        nextTick(() => {
-            createChart()
-            isLoading.value = false
-        })
+        createChart()
+        isLoading.value = false
     }, 2000)
+}
 
-    // setTimeout(() => {
-    //     createChart()
-    //     isLoading.value = false
-    // }, 2000)
+onMounted(() => {
+    isLoading.value = true
+    getStock("month")
+    getChart()
 })
 </script>
 
