@@ -122,9 +122,9 @@ async function drawChart(data: any, index: number) {
         }
         labels.value = [...newLabel].reverse()
 
-        getStock("day").then(() => {
+        getStock("day").then((res: any) => {
             // 임의로 30개 자름
-            chartData.value.datasets[0].data = graphData.value.slice(graphData.value.length - 31, graphData.value.length - 1)
+            chartData.value.datasets[0].data = res.slice(graphData.value.length - 31, graphData.value.length - 1)
         })
         getChart()
     } else if (data.label === "12개월") {
@@ -143,14 +143,13 @@ async function getStock(timeSpan: string) {
     else if (timeSpan !== "") period.value = timeSpan
 
     try {
-        await api.getStock("AAPL", "month").then((res: any) => {
+        await api.getStock("AAPL", timeSpan).then((res: any) => {
             graphData.value = res.data.results.map((item: any) => {
                 return item.o
             })
             chartData.value.datasets[0].data = graphData.value
-
-            return graphData.value
         })
+        return graphData.value
     } catch (error) {
         console.log(error)
     }
