@@ -104,6 +104,7 @@ const config: ChartConfiguration = {
     },
 }
 
+// 필터 클릭시, 동작 함수
 function drawChart(data: any, index: number) {
     buttons.value.forEach((item: any) => {
         item.active = false
@@ -112,25 +113,29 @@ function drawChart(data: any, index: number) {
 
     if (data.label === "1개월") {
         isLoading.value = true
-        console.log(isLoading.value)
 
         // 라벨 30일 출력
         let newLabel: string[] = []
         for (let i = 0; i < 30; i++) {
             // dayjs에서 subtract 메서드는 두 번째 인자를 기준으로 첫 번째 인자만큼 날짜를 빼준다.
-            newLabel.push(dayjs().subtract(i, "day").format("YYYY-MM-DD"))
+            newLabel.push(dayjs().subtract(i, "day").format("YY-MM-DD"))
         }
         labels.value = [...newLabel].reverse()
 
         // 30일 기간동안의 데이터만 출력
-        getStock("day")
+
+        getStock("month")
             .then(() => {
                 setTimeout(() => {
                     createChart()
                     isLoading.value = false
+                    console.log("1")
                 }, 2000)
+                console.log("2")
             })
             .then(() => {
+                console.log("3")
+
                 // 임의로 30개 자름
                 chartData.value.datasets[0].data = graphData.value.slice(graphData.value.length - 31, graphData.value.length - 1)
             })
@@ -146,11 +151,11 @@ function drawChart(data: any, index: number) {
     }
 }
 
+// API 호출 함수
+const period = ref<string>("")
 async function getStock(timeSpan: string) {
-    let period = ""
-
-    if (timeSpan === "") period = "month"
-    else if (timeSpan !== "") period = timeSpan
+    if (timeSpan === "") period.value = "month"
+    else if (timeSpan !== "") period.value = timeSpan
 
     try {
         await api.getStock("AAPL", "month").then((res: any) => {
@@ -164,6 +169,7 @@ async function getStock(timeSpan: string) {
     }
 }
 
+// 차트생성 함수
 function createChart() {
     const chartWithKey = Chart.getChart("myChart")
     if (chartWithKey !== undefined) {
