@@ -307,5 +307,14 @@ onMounted(() => {
             }
         }
     }
+    @include laptop() {
+        height: 226px; // 추후삭제
+
+        &__body {
+            &__list-box {
+                height: 160px;
+            }
+        }
+    }
 }
 </style>
