@@ -75,6 +75,7 @@ function search() {
         store.ticker_en = "Microsoft"
     }
     store.searchValue = searchValue.value
+    store.getStock(searchValue.value)
 
     // about 페이지로 이동
     router.push({ name: "About", query: { ticker: searchValue.value } })

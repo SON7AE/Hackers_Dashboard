@@ -28,7 +28,7 @@
                     <span class="update">5분 전 업데이트됨</span>
                 </div>
                 <div class="stock-info__body__chart-box">
-                    <Chart />
+                    <Chart :propData="graphData" />
                 </div>
             </div>
         </div>
@@ -39,8 +39,13 @@
 import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
 import Chart from "@components/mocules/about/Chart.vue"
 import { useStore } from "@store/index"
+import { ref } from "vue"
 
 const store = useStore()
+store.getStock("")
+
+const graphData = ref<any>([])
+graphData.value = store.graphData
 </script>
 
 <style lang="scss" scoped>

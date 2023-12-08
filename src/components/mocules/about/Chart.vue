@@ -13,9 +13,6 @@
                 </button>
             </div>
         </div>
-        <!-- <div class="chart__body">
-            <canvas id="myChart" style="max-width: 100%; max-height: 300px"></canvas>
-        </div> -->
         <div v-show="isLoading" class="chart__body">
             <div class="chart__body__skeleton"></div>
             <div class="lds-spinner">
@@ -39,10 +36,16 @@
 
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, toRefs } from "vue"
 import { useStore } from "@store/index"
 import api from "@apis/chart"
 import dayjs from "dayjs"
+
+interface Props {
+    propData: any
+}
+const props = defineProps<Props>()
+const { propData } = toRefs(props)
 
 const store = useStore()
 
@@ -66,7 +69,7 @@ const chartData = ref<any>({
     datasets: [
         {
             label: store.searchValue,
-            data: [],
+            data: propData.value,
             borderColor: "#32D583",
             backgroundColor: "rgba(50, 213, 131, 0.16)",
             tension: 0.1,
@@ -159,7 +162,7 @@ async function getStock(timeSpan: string) {
         console.log(error)
     }
 
-    store.getStock()
+    store.getStock("")
     chartData.value.datasets[0].data = store.graphData
     setTimeout(createChart, 1000)
 }
