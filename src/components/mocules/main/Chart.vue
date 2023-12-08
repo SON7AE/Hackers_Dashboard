@@ -291,15 +291,6 @@ onMounted(() => {
         }
     }
 
-    @keyframes lds-spinner {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
     @media screen and (max-width: 1440px) {
         max-width: 602px;
     }

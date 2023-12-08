@@ -41,6 +41,8 @@ import Chart from "@components/mocules/about/Chart.vue"
 import { useStore } from "@store/index"
 
 const store = useStore()
+
+console.log(store.ticker_en)
 </script>
 
 <style lang="scss" scoped>

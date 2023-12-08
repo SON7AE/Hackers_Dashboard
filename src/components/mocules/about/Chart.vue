@@ -3,15 +3,37 @@
         <div class="chart__header">
             <span class="chart__header__title">요약</span>
             <div class="chart__header__button-box">
-                <button class="button" @click="showGraph('1개월')">1개월</button>
-                <button class="button" @click="showGraph('3개월')">3개월</button>
-                <button class="button" @click="showGraph('6개월')">6개월</button>
-                <button class="button" @click="showGraph('12개월')">12개월</button>
+                <button
+                    v-for="(item, index) in buttons"
+                    class="button"
+                    :class="{ active: index === 0 && item.active === true ? true : false, other: index !== 0 && item.active === true ? true : false }"
+                    @click="drawChart(item, index)"
+                >
+                    {{ item.label }}
+                </button>
             </div>
         </div>
-        <div class="chart__body">
+        <!-- <div class="chart__body">
             <canvas id="myChart" style="max-width: 100%; max-height: 300px"></canvas>
+        </div> -->
+        <div v-show="isLoading" class="chart__body">
+            <div class="chart__body__skeleton"></div>
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
+        <canvas v-show="!isLoading" id="myChart" style="width: 100%; max-height: 300px"></canvas>
     </div>
 </template>
 
@@ -19,10 +41,26 @@
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
 import { onMounted, ref } from "vue"
 import { useStore } from "@store/index"
+import api from "@apis/chart"
+import dayjs from "dayjs"
 
 const store = useStore()
 
+// 스켈레톤 UI를 위한 변수
+const isLoading = ref<boolean>(true)
+const buttons = ref<any>([
+    {
+        label: "1개월",
+        active: false,
+    },
+    {
+        label: "12개월",
+        active: true,
+    },
+])
+
 const labels = ref<string[]>(["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"])
+const graphData = ref<Number[]>([])
 const chartData = ref<any>({
     labels: labels,
     datasets: [
@@ -71,31 +109,85 @@ const config: ChartConfiguration = {
     },
 }
 
-function showGraph(filter: string) {
-    if (filter === "1개월") {
-        console.log("1개월 버튼이 클릭되었습니다.")
-    } else if (filter === "3개월") {
-        console.log("3개월 버튼이 클릭되었습니다.")
-    } else if (filter === "6개월") {
-        console.log("6개월 버튼이 클릭되었습니다.")
-    } else {
-        console.log("12개월 버튼이 클릭되었습니다.")
+// 필터 클릭시, 동작 함수
+async function drawChart(data: any, index: number) {
+    buttons.value.forEach((item: any) => {
+        item.active = false
+    })
+    buttons.value[index].active = true
+
+    if (data.label === "1개월") {
+        isLoading.value = true
+
+        // 라벨 30일 출력
+        let newLabel: string[] = []
+        for (let i = 0; i < 30; i++) {
+            // dayjs에서 subtract 메서드는 두 번째 인자를 기준으로 첫 번째 인자만큼 날짜를 빼준다.
+            newLabel.push(dayjs().subtract(i, "day").format("YY-MM-DD"))
+        }
+        labels.value = [...newLabel].reverse()
+
+        getStock("day").then((res: any) => {
+            // 임의로 30개 자름
+            chartData.value.datasets[0].data = res.slice(graphData.value.length - 31, graphData.value.length - 1)
+        })
+        getChart()
+    } else if (data.label === "12개월") {
+        isLoading.value = true
+        labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+
+        getStock("month")
+        getChart()
     }
 }
 
-async function getStock() {
+// API 호출 함수
+const period = ref<string>("")
+async function getStock(timeSpan: string) {
+    if (timeSpan === "") period.value = "month"
+    else if (timeSpan !== "") period.value = timeSpan
+
+    try {
+        await api.getStock("AAPL", timeSpan).then((res: any) => {
+            graphData.value = res.data.results.map((item: any) => {
+                return item.o
+            })
+            chartData.value.datasets[0].data = graphData.value
+        })
+        return graphData.value
+    } catch (error) {
+        console.log(error)
+    }
+
     store.getStock()
     chartData.value.datasets[0].data = store.graphData
     setTimeout(createChart, 1000)
 }
 
+// 차트생성 함수
 function createChart() {
+    const chartWithKey = Chart.getChart("myChart")
+    if (chartWithKey !== undefined) {
+        chartWithKey.destroy()
+    }
     const ctx = <ChartItem>document.getElementById("myChart")
-    new Chart(ctx, config)
+    if (ctx !== null) {
+        new Chart(ctx, config)
+    }
+}
+
+// 차트호출 함수
+function getChart() {
+    setTimeout(() => {
+        createChart()
+        isLoading.value = false
+    }, 2000)
 }
 
 onMounted(() => {
-    getStock()
+    isLoading.value = true
+    getStock("month")
+    getChart()
 })
 </script>
 
@@ -173,6 +265,8 @@ onMounted(() => {
         }
     }
     &__body {
+        position: relative;
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -180,9 +274,134 @@ onMounted(() => {
         flex: 1;
 
         width: 100%;
+
+        &__skeleton {
+            width: 100%;
+            height: 95%;
+
+            margin-top: 20px;
+
+            background-color: $color-gray-100;
+            border-radius: 8px;
+        }
     }
+
     @media screen and (max-width: 1440px) {
         max-width: 602px;
+    }
+}
+
+.lds-spinner {
+    position: absolute;
+    z-index: 2;
+
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -35%);
+
+    color: official;
+    display: inline-block;
+
+    width: 80px;
+    height: 80px;
+}
+.lds-spinner {
+    div {
+        transform-origin: 40px 40px;
+        animation: lds-spinner 1.2s linear infinite;
+    }
+}
+.lds-spinner {
+    div:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 3px;
+        left: 37px;
+        width: 6px;
+        height: 18px;
+        border-radius: 20%;
+        background: $color-white-000;
+    }
+}
+.lds-spinner {
+    div:nth-child(1) {
+        transform: rotate(0deg);
+        animation-delay: -1.1s;
+    }
+}
+.lds-spinner {
+    div:nth-child(2) {
+        transform: rotate(30deg);
+        animation-delay: -1s;
+    }
+}
+.lds-spinner {
+    div:nth-child(3) {
+        transform: rotate(60deg);
+        animation-delay: -0.9s;
+    }
+}
+.lds-spinner {
+    div:nth-child(4) {
+        transform: rotate(90deg);
+        animation-delay: -0.8s;
+    }
+}
+.lds-spinner {
+    div:nth-child(5) {
+        transform: rotate(120deg);
+        animation-delay: -0.7s;
+    }
+}
+.lds-spinner {
+    div:nth-child(6) {
+        transform: rotate(150deg);
+        animation-delay: -0.6s;
+    }
+}
+.lds-spinner {
+    div:nth-child(7) {
+        transform: rotate(180deg);
+        animation-delay: -0.5s;
+    }
+}
+.lds-spinner {
+    div:nth-child(8) {
+        transform: rotate(210deg);
+        animation-delay: -0.4s;
+    }
+}
+.lds-spinner {
+    div:nth-child(9) {
+        transform: rotate(240deg);
+        animation-delay: -0.3s;
+    }
+}
+.lds-spinner {
+    div:nth-child(10) {
+        transform: rotate(270deg);
+        animation-delay: -0.2s;
+    }
+}
+.lds-spinner {
+    div:nth-child(11) {
+        transform: rotate(300deg);
+        animation-delay: -0.1s;
+    }
+}
+.lds-spinner {
+    div:nth-child(12) {
+        transform: rotate(330deg);
+        animation-delay: 0s;
+    }
+}
+@keyframes lds-spinner {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 </style>
