@@ -53,16 +53,15 @@ import SkeletonLogo from "@components/atoms/skeletons/Logo.vue"
 import SkeletonTextField from "@components/atoms/skeletons/TextField.vue"
 import Chart from "@components/mocules/about/Chart.vue"
 import { useStore } from "@store/index"
-import { ref, onMounted } from "vue"
-
-const chartRef = ref<InstanceType<typeof Chart> | null>(null)
+import { ref } from "vue"
 
 const store = useStore()
-
-onMounted(() => {
-    store.getStock(store.searchValue, "")
+const chartRef = ref<InstanceType<typeof Chart> | null>(null)
+const getChart = () => {
     chartRef.value?.getChart()
-})
+}
+
+defineExpose({ getChart })
 </script>
 
 <style lang="scss" scoped>

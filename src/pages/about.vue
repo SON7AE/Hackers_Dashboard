@@ -4,7 +4,7 @@
         <div class="page__container">
             <Header />
             <div class="page__container__contents">
-                <StockInfo />
+                <StockInfo ref="stockInfoRef" />
                 <div class="section">
                     <MarketIndex />
                     <TradingTrends />
@@ -20,6 +20,16 @@ import Header from "@components/organisms/common/Header.vue"
 import StockInfo from "@components/mocules/about/StockInfo.vue"
 import MarketIndex from "@components/mocules/about/MarketIndex.vue"
 import TradingTrends from "@components/mocules/about/TradingTrends.vue"
+import { useStore } from "@store/index"
+import { onMounted, ref } from "vue"
+
+const store = useStore()
+const stockInfoRef = ref<InstanceType<typeof StockInfo> | null>(null)
+
+onMounted(() => {
+    store.getStock(store.searchValue, "")
+    stockInfoRef.value?.getChart()
+})
 </script>
 
 <style lang="scss" scoped>
