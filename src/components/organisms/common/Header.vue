@@ -58,7 +58,7 @@ function search() {
     store.isLoading = true
 
     setTimeout(() => {
-        store.getStock(searchValue.value)
+        store.getStock(searchValue.value, "")
         store.isLoading = false
     }, 2000)
 

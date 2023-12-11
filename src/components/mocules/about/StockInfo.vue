@@ -40,7 +40,7 @@
                     <span class="update">5분 전 업데이트됨</span>
                 </div>
                 <div class="stock-info__body__chart-box">
-                    <Chart />
+                    <Chart :propData="store.graphData" />
                 </div>
             </div>
         </div>
