@@ -2,26 +2,30 @@
     <BasicLayout>
         <div class="stock-info">
             <div class="stock-info__header">
-                <SkeletonLogo v-if="isLoading" />
+                <SkeletonLogo v-if="store.isLoading" />
                 <div v-else class="stock-info__header__logo">
                     <img :src="`src/assets/icons/company/${store.ticker_en}.svg`" alt="" />
                 </div>
                 <div class="stock-info__header__title">
-                    <SkeletonTextField v-if="isLoading" :width="70" :height="30" />
-                    <span v-else class="ticker-en">{{ store.ticker_en }}</span>
-                    <div class="ticker-ko">
-                        <SkeletonTextField v-if="isLoading" :width="120" :height="20" />
-                        <span v-else class="ticker-ko__name">{{ store.ticker_ko }}</span>
-                        <div v-else class="ticker-ko__market">
-                            <span>🇺🇸</span>
-                            <span class="ticker-ko__market__name">NASDAQ</span>
+                    <div v-if="store.isLoading" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 4px">
+                        <SkeletonTextField :width="70" :height="30" />
+                        <SkeletonTextField :width="120" :height="20" />
+                    </div>
+                    <div v-else>
+                        <span class="ticker-en">{{ store.ticker_en }}</span>
+                        <div class="ticker-ko">
+                            <span class="ticker-ko__name">{{ store.ticker_ko }}</span>
+                            <div class="ticker-ko__market">
+                                <span>🇺🇸</span>
+                                <span class="ticker-ko__market__name">NASDAQ</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="stock-info__body">
                 <div class="stock-info__body__price-box">
-                    <div v-if="isLoading" class="price">
+                    <div v-if="store.isLoading" class="price">
                         <SkeletonTextField :width="120" :height="40" />
                         <SkeletonTextField :width="170" :height="30" />
                     </div>
@@ -48,19 +52,16 @@ import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
 import SkeletonLogo from "@components/atoms/skeletons/Logo.vue"
 import SkeletonTextField from "@components/atoms/skeletons/TextField.vue"
 import Chart from "@components/mocules/about/Chart.vue"
-import { ref, onMounted } from "vue"
+import { onMounted } from "vue"
 import { useStore } from "@store/index"
 
 const store = useStore()
 
-// 스켈레톤 UI를 위한 변수
-const isLoading = ref<boolean>(false)
-
 onMounted(() => {
-    isLoading.value = true
+    store.isLoading = true
     setTimeout(() => {
         store.getStock("")
-        isLoading.value = false
+        store.isLoading = false
     }, 2000)
 })
 </script>

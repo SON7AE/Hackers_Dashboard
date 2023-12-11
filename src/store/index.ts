@@ -10,6 +10,8 @@ export const useStore = defineStore("store", {
         // About Page
         todayValue: 0,
         yesterdayValue: 0,
+        // loading
+        isLoading: false,
     }),
     getters: {
         increaseValue: (state) => {
@@ -23,26 +25,30 @@ export const useStore = defineStore("store", {
     },
     actions: {
         async getStock(inputValue: string) {
-            if (inputValue === "") {
-                this.ticker_ko = "애플"
-                this.ticker_en = "Apple"
+            try {
+                if (inputValue === "") {
+                    this.ticker_ko = "애플"
+                    this.ticker_en = "Apple"
 
-                await api.getStock("AAPL", "month").then((res: any) => {
-                    this.graphData = res.data.results.map((item: any) => {
-                        return item.o
-                    })
+                    await api.getStock("AAPL", "month").then((res: any) => {
+                        this.graphData = res.data.results.map((item: any) => {
+                            return item.o
+                        })
 
-                    this.todayValue = this.graphData[this.graphData.length - 1]
-                    this.yesterdayValue = this.graphData[this.graphData.length - 2]
-                })
-            } else {
-                await api.getStock(inputValue, "month").then((res: any) => {
-                    this.graphData = res.data.results.map((item: any) => {
-                        return item.o
+                        this.todayValue = this.graphData[this.graphData.length - 1]
+                        this.yesterdayValue = this.graphData[this.graphData.length - 2]
                     })
-                    this.todayValue = this.graphData[this.graphData.length - 1]
-                    this.yesterdayValue = this.graphData[this.graphData.length - 2]
-                })
+                } else {
+                    await api.getStock(inputValue, "month").then((res: any) => {
+                        this.graphData = res.data.results.map((item: any) => {
+                            return item.o
+                        })
+                        this.todayValue = this.graphData[this.graphData.length - 1]
+                        this.yesterdayValue = this.graphData[this.graphData.length - 2]
+                    })
+                }
+            } catch (error) {
+                console.log(error)
             }
         },
     },
