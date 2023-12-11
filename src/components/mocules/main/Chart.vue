@@ -241,9 +241,6 @@ onMounted(() => {
 
                 cursor: pointer;
 
-                // &.active {
-                //     background-color: $color-gray-100;
-                // }
                 &.active {
                     background-color: $color-gray-100;
                     border-radius: 8px 0 0 8px;

@@ -153,10 +153,6 @@ async function getStock(timeSpan: string) {
     } catch (error) {
         console.log(error)
     }
-
-    store.getStock("")
-    chartData.value.datasets[0].data = store.graphData
-    setTimeout(createChart, 1000)
 }
 
 // 차트생성 함수
@@ -168,7 +164,6 @@ function createChart() {
     const ctx = <ChartItem>document.getElementById("myChart")
     if (ctx !== null) {
         new Chart(ctx, config)
-        chartData.value.datasets[0].data = store.graphData
     }
 }
 
@@ -242,6 +237,15 @@ onMounted(() => {
                 border-right: 1px solid $color-gray-300;
 
                 cursor: pointer;
+
+                &.active {
+                    background-color: $color-gray-100;
+                    border-radius: 8px 0 0 8px;
+                }
+                &.other {
+                    background-color: $color-gray-100;
+                    border-radius: 0 8px 8px 0;
+                }
 
                 &:hover {
                     background-color: $color-gray-100;
