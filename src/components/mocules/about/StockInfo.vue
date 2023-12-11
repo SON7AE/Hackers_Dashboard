@@ -40,7 +40,7 @@
                     <span class="update">5분 전 업데이트됨</span>
                 </div>
                 <div class="stock-info__body__chart-box">
-                    <Chart />
+                    <Chart ref="chartRef" />
                 </div>
             </div>
         </div>
@@ -53,8 +53,16 @@ import SkeletonLogo from "@components/atoms/skeletons/Logo.vue"
 import SkeletonTextField from "@components/atoms/skeletons/TextField.vue"
 import Chart from "@components/mocules/about/Chart.vue"
 import { useStore } from "@store/index"
+import { ref, onMounted } from "vue"
+
+const chartRef = ref<InstanceType<typeof Chart> | null>(null)
 
 const store = useStore()
+
+onMounted(() => {
+    store.getStock(store.searchValue, "")
+    chartRef.value?.getChart()
+})
 </script>
 
 <style lang="scss" scoped>

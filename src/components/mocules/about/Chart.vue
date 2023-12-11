@@ -158,6 +158,8 @@ function getChart() {
         store.isLoading = false
     }, 2000)
 }
+
+defineExpose({ getChart })
 </script>
 
 <style lang="scss" scoped>
