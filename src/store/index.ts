@@ -86,7 +86,6 @@ export const useStore = defineStore("store", {
                 this.todayValue = this.graphData[this.graphData.length - 1]
                 this.yesterdayValue = this.graphData[this.graphData.length - 2]
             })
-            console.log(this.graphData)
             return this.graphData
         },
     },

@@ -20,6 +20,11 @@ import Header from "@components/organisms/common/Header.vue"
 import StockInfo from "@components/mocules/about/StockInfo.vue"
 import MarketIndex from "@components/mocules/about/MarketIndex.vue"
 import TradingTrends from "@components/mocules/about/TradingTrends.vue"
+
+import { useStore } from "@store/index"
+
+const store = useStore()
+store.getStock(store.searchValue, "")
 </script>
 
 <style lang="scss" scoped>

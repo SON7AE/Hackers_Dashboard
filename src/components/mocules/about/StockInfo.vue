@@ -40,7 +40,7 @@
                     <span class="update">5분 전 업데이트됨</span>
                 </div>
                 <div class="stock-info__body__chart-box">
-                    <Chart :propData="store.graphData" />
+                    <Chart />
                 </div>
             </div>
         </div>
@@ -52,18 +52,9 @@ import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
 import SkeletonLogo from "@components/atoms/skeletons/Logo.vue"
 import SkeletonTextField from "@components/atoms/skeletons/TextField.vue"
 import Chart from "@components/mocules/about/Chart.vue"
-import { onMounted } from "vue"
 import { useStore } from "@store/index"
 
 const store = useStore()
-
-onMounted(() => {
-    store.isLoading = true
-    setTimeout(() => {
-        store.getStock(store.searchValue, "")
-        store.isLoading = false
-    }, 2000)
-})
 </script>
 
 <style lang="scss" scoped>

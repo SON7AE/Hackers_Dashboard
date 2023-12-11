@@ -36,15 +36,10 @@
 
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
-import { onMounted, ref, toRefs } from "vue"
+import { ref } from "vue"
 import { useStore } from "@store/index"
 import dayjs from "dayjs"
 
-interface Props {
-    propData: any
-}
-const props = defineProps<Props>()
-const { propData } = toRefs(props)
 const store = useStore()
 
 // ----------------------------------------------------------------------------------------------------
@@ -61,13 +56,13 @@ const buttons = ref<any>([
 ])
 
 const labels = ref<string[]>(["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"])
-const graphData = ref<Number[]>([])
+// const graphData = ref<Number[]>([])
 const chartData = ref<any>({
     labels: labels,
     datasets: [
         {
             label: store.searchValue,
-            data: propData.value,
+            data: store.graphData,
             borderColor: "#32D583",
             backgroundColor: "rgba(50, 213, 131, 0.16)",
             tension: 0.1,
@@ -112,7 +107,6 @@ const config: ChartConfiguration = {
 
 // 필터 클릭시, 동작 함수
 async function drawChart(data: any, index: number) {
-    graphData.value = store.graphData
     buttons.value.forEach((item: any) => {
         item.active = false
     })
@@ -131,14 +125,16 @@ async function drawChart(data: any, index: number) {
 
         store.getStock(store.searchValue, "day").then((res: any) => {
             // 임의로 30개 자름
-            chartData.value.datasets[0].data = res.slice(graphData.value.length - 31, graphData.value.length - 1)
+            chartData.value.datasets[0].data = res.slice(store.graphData.length - 31, store.graphData.length - 1)
         })
         getChart()
     } else if (data.label === "12개월") {
         store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 
-        store.getStock(store.searchValue, "month")
+        store.getStock(store.searchValue, "month").then((res: any) => {
+            chartData.value.datasets[0].data = res
+        })
         getChart()
     }
 }
@@ -162,12 +158,6 @@ function getChart() {
         store.isLoading = false
     }, 2000)
 }
-
-onMounted(() => {
-    store.isLoading = true
-    store.getStock(store.searchValue, "month")
-    getChart()
-})
 </script>
 
 <style lang="scss" scoped>
