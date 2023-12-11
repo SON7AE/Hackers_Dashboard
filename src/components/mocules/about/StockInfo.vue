@@ -19,16 +19,17 @@
             <div class="stock-info__body">
                 <div class="stock-info__body__price-box">
                     <div class="price">
-                        <span class="price__current">$384.15</span>
+                        <span class="price__current">${{ store.todayValue }}</span>
                         <div class="price__rate">
-                            <img src="src/assets/icons/decrease.svg" alt="" />
-                            <span class="price__rate__percent">$2.15(0.56%)</span>
+                            <img v-if="Number(store.increaseValue) > 0" src="src/assets/icons/increase.svg" alt="" />
+                            <img v-else src="src/assets/icons/decrease.svg" alt="" />
+                            <span class="price__rate__percent" :style="{ color: Number(store.increaseValue) > 0 ? '#f04438' : '#1570ef' }">${{ store.increaseValue }}({{ store.increaseRate }}%)</span>
                         </div>
                     </div>
                     <span class="update">5분 전 업데이트됨</span>
                 </div>
                 <div class="stock-info__body__chart-box">
-                    <Chart :propData="graphData" />
+                    <Chart :propData="store.graphData" />
                 </div>
             </div>
         </div>
@@ -39,13 +40,9 @@
 import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
 import Chart from "@components/mocules/about/Chart.vue"
 import { useStore } from "@store/index"
-import { ref } from "vue"
 
 const store = useStore()
 store.getStock("")
-
-const graphData = ref<any>([])
-graphData.value = store.graphData
 </script>
 
 <style lang="scss" scoped>
@@ -159,7 +156,6 @@ graphData.value = store.graphData
                     justify-content: center;
 
                     &__percent {
-                        color: $color-blue-600;
                         font-family: "Public Sans", sans-serif;
                         font-size: 22px;
                         font-weight: 700;
