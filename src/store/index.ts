@@ -34,9 +34,9 @@ export const useStore = defineStore("store", {
                         this.graphData = res.data.results.map((item: any) => {
                             return item.o
                         })
-
                         this.todayValue = this.graphData[this.graphData.length - 1]
                         this.yesterdayValue = this.graphData[this.graphData.length - 2]
+                        console.log(this.graphData)
                     })
                 } else {
                     await api.getStock(inputValue, "month").then((res: any) => {
@@ -45,6 +45,8 @@ export const useStore = defineStore("store", {
                         })
                         this.todayValue = this.graphData[this.graphData.length - 1]
                         this.yesterdayValue = this.graphData[this.graphData.length - 2]
+
+                        console.log(this.graphData)
                     })
                 }
             } catch (error) {

@@ -13,7 +13,7 @@
                 </button>
             </div>
         </div>
-        <div v-show="isLoading" class="chart__body">
+        <div v-show="store.isLoading" class="chart__body">
             <div class="chart__body__skeleton"></div>
             <div class="lds-spinner">
                 <div></div>
@@ -30,27 +30,19 @@
                 <div></div>
             </div>
         </div>
-        <canvas v-show="!isLoading" id="myChart" style="width: 100%; max-height: 300px"></canvas>
+        <canvas v-show="!store.isLoading" id="myChart" style="width: 100%; max-height: 300px"></canvas>
     </div>
 </template>
 
 <script setup lang="ts">
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
-import { onMounted, ref, toRefs } from "vue"
+import { onMounted, ref } from "vue"
 import { useStore } from "@store/index"
 import api from "@apis/chart"
 import dayjs from "dayjs"
 
-interface Props {
-    propData: any
-}
-const props = defineProps<Props>()
-const { propData } = toRefs(props)
-
 const store = useStore()
 
-// 스켈레톤 UI를 위한 변수
-const isLoading = ref<boolean>(true)
 const buttons = ref<any>([
     {
         label: "1개월",
@@ -69,7 +61,7 @@ const chartData = ref<any>({
     datasets: [
         {
             label: store.searchValue,
-            data: propData.value,
+            data: graphData.value,
             borderColor: "#32D583",
             backgroundColor: "rgba(50, 213, 131, 0.16)",
             tension: 0.1,
@@ -120,7 +112,7 @@ async function drawChart(data: any, index: number) {
     buttons.value[index].active = true
 
     if (data.label === "1개월") {
-        isLoading.value = true
+        store.isLoading = true
 
         // 라벨 30일 출력
         let newLabel: string[] = []
@@ -136,7 +128,7 @@ async function drawChart(data: any, index: number) {
         })
         getChart()
     } else if (data.label === "12개월") {
-        isLoading.value = true
+        store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 
         getStock("month")
@@ -151,7 +143,7 @@ async function getStock(timeSpan: string) {
     else if (timeSpan !== "") period.value = timeSpan
 
     try {
-        await api.getStock("AAPL", timeSpan).then((res: any) => {
+        await api.getStock(store.searchValue, timeSpan).then((res: any) => {
             graphData.value = res.data.results.map((item: any) => {
                 return item.o
             })
@@ -176,6 +168,7 @@ function createChart() {
     const ctx = <ChartItem>document.getElementById("myChart")
     if (ctx !== null) {
         new Chart(ctx, config)
+        chartData.value.datasets[0].data = store.graphData
     }
 }
 
@@ -183,12 +176,12 @@ function createChart() {
 function getChart() {
     setTimeout(() => {
         createChart()
-        isLoading.value = false
+        store.isLoading = false
     }, 2000)
 }
 
 onMounted(() => {
-    isLoading.value = true
+    store.isLoading = true
     getStock("month")
     getChart()
 })
