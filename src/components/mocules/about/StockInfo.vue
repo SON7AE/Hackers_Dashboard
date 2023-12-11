@@ -2,14 +2,17 @@
     <BasicLayout>
         <div class="stock-info">
             <div class="stock-info__header">
-                <div class="stock-info__header__logo">
+                <SkeletonLogo v-if="isLoading" />
+                <div v-else class="stock-info__header__logo">
                     <img :src="`src/assets/icons/company/${store.ticker_en}.svg`" alt="" />
                 </div>
                 <div class="stock-info__header__title">
-                    <span class="ticker-en">{{ store.ticker_en }}</span>
+                    <SkeletonTextField v-if="isLoading" :width="70" :height="30" />
+                    <span v-else class="ticker-en">{{ store.ticker_en }}</span>
                     <div class="ticker-ko">
-                        <span class="ticker-ko__name">{{ store.ticker_ko }}</span>
-                        <div class="ticker-ko__market">
+                        <SkeletonTextField v-if="isLoading" :width="120" :height="20" />
+                        <span v-else class="ticker-ko__name">{{ store.ticker_ko }}</span>
+                        <div v-else class="ticker-ko__market">
                             <span>🇺🇸</span>
                             <span class="ticker-ko__market__name">NASDAQ</span>
                         </div>
@@ -18,7 +21,11 @@
             </div>
             <div class="stock-info__body">
                 <div class="stock-info__body__price-box">
-                    <div class="price">
+                    <div v-if="isLoading" class="price">
+                        <SkeletonTextField :width="120" :height="40" />
+                        <SkeletonTextField :width="170" :height="30" />
+                    </div>
+                    <div v-else class="price">
                         <span class="price__current">${{ store.todayValue }}</span>
                         <div class="price__rate">
                             <img v-if="Number(store.increaseValue) > 0" src="src/assets/icons/increase.svg" alt="" />
@@ -38,11 +45,24 @@
 
 <script setup lang="ts">
 import BasicLayout from "@components/atoms/layouts/BasicLayout.vue"
+import SkeletonLogo from "@components/atoms/skeletons/Logo.vue"
+import SkeletonTextField from "@components/atoms/skeletons/TextField.vue"
 import Chart from "@components/mocules/about/Chart.vue"
+import { ref, onMounted } from "vue"
 import { useStore } from "@store/index"
 
 const store = useStore()
-store.getStock("")
+
+// 스켈레톤 UI를 위한 변수
+const isLoading = ref<boolean>(false)
+
+onMounted(() => {
+    isLoading.value = true
+    setTimeout(() => {
+        store.getStock("")
+        isLoading.value = false
+    }, 2000)
+})
 </script>
 
 <style lang="scss" scoped>
