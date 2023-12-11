@@ -53,29 +53,10 @@ function init() {
 const store = useStore()
 const searchValue = ref<string>("")
 function search() {
-    // store의 state에 검색 값을 할당
-    if (searchValue.value === "AAPL") {
-        store.ticker_ko = "애플"
-        store.ticker_en = "Apple"
-    }
-    if (searchValue.value === "GOOG") {
-        store.ticker_ko = "구글"
-        store.ticker_en = "Google"
-    }
-    if (searchValue.value === "NFLX") {
-        store.ticker_ko = "넷플릭스"
-        store.ticker_en = "Netfilx"
-    }
-    if (searchValue.value === "AMZN") {
-        store.ticker_ko = "아마존"
-        store.ticker_en = "Amazon"
-    }
-    if (searchValue.value === "MSFT") {
-        store.ticker_ko = "마이크로소프트"
-        store.ticker_en = "Microsoft"
-    }
+    // Store로 데이터 전달 및 세팅
     store.searchValue = searchValue.value
     store.isLoading = true
+
     setTimeout(() => {
         store.getStock(searchValue.value)
         store.isLoading = false

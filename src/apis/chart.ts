@@ -1,9 +1,7 @@
 import axios from "axios"
 import dayjs from "dayjs"
 
-// R7SL6mxl6699GWChvW3fpsehxTJKnwG9
-// yCV497pxxjpRVqSPPUn5K7A2pDtD8MVs
-const API_KEY = "yCV497pxxjpRVqSPPUn5K7A2pDtD8MVs"
+const API_KEY = "O9ZcNwKBJTYUyALHNbE8Qp6p4gHrqWVT"
 const today = dayjs().format("YYYY-MM-DD")
 
 export default {

@@ -38,10 +38,11 @@
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto"
 import { onMounted, ref } from "vue"
 import { useStore } from "@store/index"
-import api from "@apis/chart"
 import dayjs from "dayjs"
 
 const store = useStore()
+const graphData = ref<Number[]>([])
+graphData.value = store.graphData
 
 const buttons = ref<any>([
     {
@@ -55,7 +56,6 @@ const buttons = ref<any>([
 ])
 
 const labels = ref<string[]>(["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"])
-const graphData = ref<Number[]>([])
 const chartData = ref<any>({
     labels: labels,
     datasets: [
@@ -122,8 +122,9 @@ async function drawChart(data: any, index: number) {
         }
         labels.value = [...newLabel].reverse()
 
-        getStock("day").then((res: any) => {
+        store.getStock(store.searchValue, "day").then((res: any) => {
             // 임의로 30개 자름
+            console.log(store.searchValue)
             chartData.value.datasets[0].data = res.slice(graphData.value.length - 31, graphData.value.length - 1)
         })
         getChart()
@@ -131,27 +132,8 @@ async function drawChart(data: any, index: number) {
         store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 
-        getStock("month")
+        store.getStock(store.searchValue, "month")
         getChart()
-    }
-}
-
-// API 호출 함수
-const period = ref<string>("")
-async function getStock(timeSpan: string) {
-    if (timeSpan === "") period.value = "month"
-    else if (timeSpan !== "") period.value = timeSpan
-
-    try {
-        await api.getStock(store.searchValue, timeSpan).then((res: any) => {
-            graphData.value = res.data.results.map((item: any) => {
-                return item.o
-            })
-            chartData.value.datasets[0].data = graphData.value
-        })
-        return graphData.value
-    } catch (error) {
-        console.log(error)
     }
 }
 
@@ -177,7 +159,7 @@ function getChart() {
 
 onMounted(() => {
     store.isLoading = true
-    getStock("month")
+    store.getStock(store.searchValue, "month")
     getChart()
 })
 </script>

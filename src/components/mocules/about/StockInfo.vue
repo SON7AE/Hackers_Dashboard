@@ -60,7 +60,7 @@ const store = useStore()
 onMounted(() => {
     store.isLoading = true
     setTimeout(() => {
-        store.getStock("")
+        store.getStock(store.searchValue, "")
         store.isLoading = false
     }, 2000)
 })

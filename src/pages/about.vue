@@ -20,6 +20,14 @@ import Header from "@components/organisms/common/Header.vue"
 import StockInfo from "@components/mocules/about/StockInfo.vue"
 import MarketIndex from "@components/mocules/about/MarketIndex.vue"
 import TradingTrends from "@components/mocules/about/TradingTrends.vue"
+import { onUnmounted } from "vue"
+import { useStore } from "@store/index"
+
+const store = useStore()
+
+onUnmounted(() => {
+    store.graphData = []
+})
 </script>
 
 <style lang="scss" scoped>
