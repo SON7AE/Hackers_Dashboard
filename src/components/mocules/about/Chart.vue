@@ -159,7 +159,7 @@ function getChart() {
     }, 2000)
 }
 
-defineExpose({ getChart })
+defineExpose({ drawChart })
 </script>
 
 <style lang="scss" scoped>

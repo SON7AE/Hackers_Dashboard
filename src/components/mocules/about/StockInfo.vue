@@ -58,7 +58,13 @@ import { ref } from "vue"
 const store = useStore()
 const chartRef = ref<InstanceType<typeof Chart> | null>(null)
 const getChart = () => {
-    chartRef.value?.getChart()
+    chartRef.value?.drawChart(
+        {
+            label: "12개월",
+            active: true,
+        },
+        1
+    )
 }
 
 defineExpose({ getChart })
