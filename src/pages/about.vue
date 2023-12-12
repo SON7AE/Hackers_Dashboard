@@ -25,9 +25,10 @@ import { onMounted, ref } from "vue"
 
 const store = useStore()
 const stockInfoRef = ref<InstanceType<typeof StockInfo> | null>(null)
+const searchValue = ref<string>("")
 
 onMounted(() => {
-    store.getStock(store.searchValue, "")
+    store.getStock(searchValue.value, "month")
     stockInfoRef.value?.getChart()
 })
 </script>
