@@ -60,6 +60,10 @@ export const useStore = defineStore("store", {
                     this.ticker_ko = "메타"
                     this.ticker_en = "Meta"
                 }
+                if (inputValue === "TSLA") {
+                    this.ticker_ko = "테슬라"
+                    this.ticker_en = "Tesla"
+                }
 
                 await api.getStock(inputValue, period).then((res: any) => {
                     this.graphData = res.data.results.map((item: any) => {

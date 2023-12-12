@@ -2,7 +2,7 @@
     <div class="page">
         <Navigation />
         <div class="page__container">
-            <Header />
+            <Header @send-event="watchValue" />
             <div class="page__container__contents">
                 <StockInfo ref="stockInfoRef" />
                 <div class="section">
@@ -25,10 +25,14 @@ import { onMounted, ref } from "vue"
 
 const store = useStore()
 const stockInfoRef = ref<InstanceType<typeof StockInfo> | null>(null)
-const searchValue = ref<string>("")
+
+function watchValue(searchValue: string) {
+    store.getStock(searchValue, "month")
+    stockInfoRef.value?.getChart()
+}
 
 onMounted(() => {
-    store.getStock(searchValue.value, "month")
+    store.getStock(store.searchValue, "month")
     stockInfoRef.value?.getChart()
 })
 </script>

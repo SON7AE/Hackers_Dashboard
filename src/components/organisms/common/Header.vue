@@ -52,6 +52,8 @@ function init() {
 
 const store = useStore()
 const searchValue = ref<string>("")
+const emit = defineEmits(["send-event"])
+
 function search() {
     // Store로 데이터 전달 및 세팅
     store.searchValue = searchValue.value
@@ -64,6 +66,7 @@ function search() {
 
     // about 페이지로 이동
     router.push({ name: "About", query: { ticker: searchValue.value } })
+    emit("send-event", searchValue.value)
 }
 
 onMounted(() => {

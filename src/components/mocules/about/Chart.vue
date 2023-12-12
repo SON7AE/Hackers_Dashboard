@@ -127,7 +127,11 @@ async function drawChart(data: any, index: number) {
             // 임의로 30개 자름
             chartData.value.datasets[0].data = res.slice(store.graphData.length - 31, store.graphData.length - 1)
         })
-        getChart()
+        setTimeout(() => {
+            createChart()
+            store.isLoading = false
+        }, 2000)
+        store.searchValue = ""
     } else if (data.label === "12개월") {
         store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
@@ -135,7 +139,11 @@ async function drawChart(data: any, index: number) {
         store.getStock(store.searchValue, "month").then((res: any) => {
             chartData.value.datasets[0].data = res
         })
-        getChart()
+        setTimeout(() => {
+            createChart()
+            store.isLoading = false
+        }, 2000)
+        store.searchValue = ""
     }
 }
 
@@ -149,14 +157,6 @@ function createChart() {
     if (ctx !== null) {
         new Chart(ctx, config)
     }
-}
-
-// 차트호출 함수
-function getChart() {
-    setTimeout(() => {
-        createChart()
-        store.isLoading = false
-    }, 2000)
 }
 
 defineExpose({ drawChart })
