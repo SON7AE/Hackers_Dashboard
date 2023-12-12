@@ -34,38 +34,51 @@ export const useStore = defineStore("store", {
                 if (inputValue === "AAPL") {
                     this.ticker_ko = "애플"
                     this.ticker_en = "Apple"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "GOOG") {
                     this.ticker_ko = "구글"
                     this.ticker_en = "Google"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "NFLX") {
                     this.ticker_ko = "넷플릭스"
                     this.ticker_en = "Netfilx"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "AMZN") {
                     this.ticker_ko = "아마존"
                     this.ticker_en = "Amazon"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "MSFT") {
                     this.ticker_ko = "마이크로소프트"
                     this.ticker_en = "Microsoft"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "IBM") {
                     this.ticker_ko = "아이비엠"
                     this.ticker_en = "IBM"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "META") {
                     this.ticker_ko = "메타"
                     this.ticker_en = "Meta"
+                    this.searchValue = inputValue
                 }
                 if (inputValue === "TSLA") {
                     this.ticker_ko = "테슬라"
                     this.ticker_en = "Tesla"
+                    this.searchValue = inputValue
+                }
+                if (inputValue === "NVDA") {
+                    this.ticker_ko = "엔비디아"
+                    this.ticker_en = "Nvidia"
+                    this.searchValue = inputValue
                 }
 
-                this.searchValue = inputValue
-                await api.getStock(inputValue, this.period).then((res: any) => {
+                await api.getApi(inputValue, this.period).then((res: any) => {
+                    console.log("호출")
                     this.graphData = res.data.results.map((item: any) => {
                         return item.o
                     })
@@ -81,7 +94,7 @@ export const useStore = defineStore("store", {
                 this.ticker_en = "Apple"
                 this.searchValue = "AAPL"
 
-                await api.getStock("AAPL", this.period).then((res: any) => {
+                await api.getApi("AAPL", this.period).then((res: any) => {
                     this.graphData = res.data.results.map((item: any) => {
                         return item.o
                     })

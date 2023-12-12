@@ -126,7 +126,6 @@ async function drawChart(data: any, index: number) {
                 // 임의로 30개 자름
                 chartData.value.datasets[0].data = res.slice(store.graphData.length - 31, store.graphData.length - 1)
             })
-
             setTimeout(() => {
                 createChart()
                 store.isLoading = false
@@ -138,12 +137,11 @@ async function drawChart(data: any, index: number) {
         store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 
+        console.log("마지막")
         try {
             store.getStock(store.searchValue, "month").then((res: any) => {
                 chartData.value.datasets[0].data = res
-                console.log(res)
             })
-            console.log(chartData.value.datasets[0].data)
             setTimeout(() => {
                 createChart()
                 store.isLoading = false

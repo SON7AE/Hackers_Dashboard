@@ -27,12 +27,11 @@ const store = useStore()
 const stockInfoRef = ref<InstanceType<typeof StockInfo> | null>(null)
 
 function watchValue(searchValue: string) {
-    store.getStock(searchValue, "month")
+    store.searchValue = searchValue
     stockInfoRef.value?.getChart()
 }
 
 onMounted(() => {
-    // store.getStock("AAPL", "month")
     stockInfoRef.value?.getChart()
 })
 

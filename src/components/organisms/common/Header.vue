@@ -59,11 +59,6 @@ function search() {
     store.searchValue = searchValue.value
     store.isLoading = true
 
-    setTimeout(() => {
-        store.getStock(searchValue.value, "")
-        store.isLoading = false
-    }, 2000)
-
     // about 페이지로 이동
     router.push({ name: "About", query: { ticker: searchValue.value } })
     emit("send-event", searchValue.value)
