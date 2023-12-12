@@ -120,32 +120,36 @@ async function drawChart(data: any, index: number) {
             newLabel.push(dayjs().subtract(i, "day").format("YY-MM-DD"))
         }
         labels.value = [...newLabel].reverse()
-        store
-            .getStock(store.searchValue, "day")
-            .then((res: any) => {
+
+        try {
+            store.getStock(store.searchValue, "day").then((res: any) => {
                 // 임의로 30개 자름
-                chartData.value.datasets[0].data = res.slice(store.graphData.length - 31, store.graphData.length - 1)
+                chartData.value.datasets[0].data = [...res.slice(store.graphData.length - 31, store.graphData.length - 1)]
             })
-            .then(() => {
-                setTimeout(() => {
-                    createChart()
-                    store.isLoading = false
-                }, 2000)
-            })
+
+            setTimeout(() => {
+                createChart()
+                store.isLoading = false
+            }, 2000)
+        } catch (error) {
+            console.log(error)
+        }
     } else if (data.label === "12개월") {
         store.isLoading = true
         labels.value = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
-        store
-            .getStock(store.searchValue, "month")
-            .then((res: any) => {
-                chartData.value.datasets[0].data = res
+
+        try {
+            store.getStock(store.searchValue, "month").then((res: any) => {
+                chartData.value.datasets[0].data = [...res]
             })
-            .then(() => {
-                setTimeout(() => {
-                    createChart()
-                    store.isLoading = false
-                }, 2000)
-            })
+
+            setTimeout(() => {
+                createChart()
+                store.isLoading = false
+            }, 2000)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

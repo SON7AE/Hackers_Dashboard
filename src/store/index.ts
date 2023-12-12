@@ -65,6 +65,7 @@ export const useStore = defineStore("store", {
                 }
 
                 await api.getStock(inputValue, this.period).then((res: any) => {
+                    this.searchValue = inputValue
                     this.graphData = res.data.results.map((item: any) => {
                         return item.o
                     })
@@ -81,6 +82,7 @@ export const useStore = defineStore("store", {
             this.ticker_en = "Apple"
 
             await api.getStock("AAPL", this.period).then((res: any) => {
+                this.searchValue = "AAPL"
                 this.graphData = res.data.results.map((item: any) => {
                     return item.o
                 })

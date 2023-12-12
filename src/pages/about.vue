@@ -21,7 +21,7 @@ import StockInfo from "@components/mocules/about/StockInfo.vue"
 import MarketIndex from "@components/mocules/about/MarketIndex.vue"
 import TradingTrends from "@components/mocules/about/TradingTrends.vue"
 import { useStore } from "@store/index"
-import { onMounted, ref } from "vue"
+import { onMounted, onBeforeUnmount, ref } from "vue"
 
 const store = useStore()
 const stockInfoRef = ref<InstanceType<typeof StockInfo> | null>(null)
@@ -34,6 +34,10 @@ function watchValue(searchValue: string) {
 onMounted(() => {
     store.getStock("AAPL", "month")
     stockInfoRef.value?.getChart()
+})
+
+onBeforeUnmount(() => {
+    store.$reset()
 })
 </script>
 
