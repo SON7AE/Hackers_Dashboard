@@ -32,7 +32,7 @@ function watchValue(searchValue: string) {
 }
 
 onMounted(() => {
-    store.getStock(store.searchValue, "month")
+    store.getStock("AAPL", "month")
     stockInfoRef.value?.getChart()
 })
 </script>

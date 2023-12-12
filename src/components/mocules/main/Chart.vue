@@ -143,7 +143,7 @@ async function getStock(timeSpan: string) {
     else if (timeSpan !== "") period.value = timeSpan
 
     try {
-        await api.getStock("AAPL", timeSpan).then((res: any) => {
+        await api.getStock("AAPL", period.value).then((res: any) => {
             graphData.value = res.data.results.map((item: any) => {
                 return item.o
             })

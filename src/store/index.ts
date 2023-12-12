@@ -8,6 +8,7 @@ export const useStore = defineStore("store", {
         ticker_en: "",
         graphData: [],
         // About Page
+        period: "",
         todayValue: 0,
         yesterdayValue: 0,
         // loading
@@ -25,10 +26,8 @@ export const useStore = defineStore("store", {
     },
     actions: {
         async getStock(inputValue: string, timeSpan: string) {
-            let period = ""
-
-            if (timeSpan === "") period = "month"
-            else if (timeSpan !== "") period = timeSpan
+            if (timeSpan === "") this.period = "month"
+            else if (timeSpan !== "") this.period = timeSpan
 
             if (inputValue !== "") {
                 // store의 state에 검색 값을 할당
@@ -65,7 +64,7 @@ export const useStore = defineStore("store", {
                     this.ticker_en = "Tesla"
                 }
 
-                await api.getStock(inputValue, period).then((res: any) => {
+                await api.getStock(inputValue, this.period).then((res: any) => {
                     this.graphData = res.data.results.map((item: any) => {
                         return item.o
                     })
@@ -81,7 +80,7 @@ export const useStore = defineStore("store", {
             this.ticker_ko = "애플"
             this.ticker_en = "Apple"
 
-            await api.getStock("AAPL", "month").then((res: any) => {
+            await api.getStock("AAPL", this.period).then((res: any) => {
                 this.graphData = res.data.results.map((item: any) => {
                     return item.o
                 })
