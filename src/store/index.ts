@@ -64,8 +64,8 @@ export const useStore = defineStore("store", {
                     this.ticker_en = "Tesla"
                 }
 
+                this.searchValue = inputValue
                 await api.getStock(inputValue, this.period).then((res: any) => {
-                    this.searchValue = inputValue
                     this.graphData = res.data.results.map((item: any) => {
                         return item.o
                     })
@@ -74,22 +74,22 @@ export const useStore = defineStore("store", {
                 })
                 return this.graphData
             } else if (inputValue === "") {
-                this.getBase()
-            }
-        },
-        async getBase() {
-            this.ticker_ko = "애플"
-            this.ticker_en = "Apple"
+                if (timeSpan === "") this.period = "month"
+                else if (timeSpan !== "") this.period = timeSpan
 
-            await api.getStock("AAPL", this.period).then((res: any) => {
+                this.ticker_ko = "애플"
+                this.ticker_en = "Apple"
                 this.searchValue = "AAPL"
-                this.graphData = res.data.results.map((item: any) => {
-                    return item.o
+
+                await api.getStock("AAPL", this.period).then((res: any) => {
+                    this.graphData = res.data.results.map((item: any) => {
+                        return item.o
+                    })
+                    this.todayValue = this.graphData[this.graphData.length - 1]
+                    this.yesterdayValue = this.graphData[this.graphData.length - 2]
                 })
-                this.todayValue = this.graphData[this.graphData.length - 1]
-                this.yesterdayValue = this.graphData[this.graphData.length - 2]
-            })
-            return this.graphData
+                return this.graphData
+            }
         },
     },
 })

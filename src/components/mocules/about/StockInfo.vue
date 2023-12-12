@@ -57,6 +57,7 @@ import { ref } from "vue"
 
 const store = useStore()
 const chartRef = ref<InstanceType<typeof Chart> | null>(null)
+
 const getChart = () => {
     chartRef.value?.drawChart(
         {

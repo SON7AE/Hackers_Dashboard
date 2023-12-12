@@ -124,7 +124,7 @@ async function drawChart(data: any, index: number) {
         try {
             store.getStock(store.searchValue, "day").then((res: any) => {
                 // 임의로 30개 자름
-                chartData.value.datasets[0].data = [...res.slice(store.graphData.length - 31, store.graphData.length - 1)]
+                chartData.value.datasets[0].data = res.slice(store.graphData.length - 31, store.graphData.length - 1)
             })
 
             setTimeout(() => {
@@ -140,9 +140,10 @@ async function drawChart(data: any, index: number) {
 
         try {
             store.getStock(store.searchValue, "month").then((res: any) => {
-                chartData.value.datasets[0].data = [...res]
+                chartData.value.datasets[0].data = res
+                console.log(res)
             })
-
+            console.log(chartData.value.datasets[0].data)
             setTimeout(() => {
                 createChart()
                 store.isLoading = false
