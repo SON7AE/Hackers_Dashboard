@@ -86,6 +86,16 @@ export const useStore = defineStore("store", {
                     this.ticker_en = "Intel"
                     this.searchValue = inputValue
                 }
+                if (inputValue === "DIS") {
+                    this.ticker_ko = "디즈니"
+                    this.ticker_en = "Disney"
+                    this.searchValue = inputValue
+                }
+                if (inputValue === "SPOT") {
+                    this.ticker_ko = "스포티파이"
+                    this.ticker_en = "Spotify"
+                    this.searchValue = inputValue
+                }
 
                 await api.getApi(inputValue, this.period).then((res: any) => {
                     console.log("호출")
