@@ -61,8 +61,24 @@ const movePage = (pageIdx: number) => {
     emit("send-event", pageIdx)
     page.value = pageIdx
 }
-const moveToPrev = () => {}
-const moveToNext = () => {}
+const moveToPrev = () => {
+    if (step.value === 0) {
+        return
+    } else {
+        step.value--
+        emit("send-event", pages.value[step.value][0])
+        page.value = pages.value[step.value][0]
+    }
+}
+const moveToNext = (): void => {
+    if (step.value < pages.value.length - 2) {
+        step.value++
+        emit("send-event", pages.value[step.value][0])
+        page.value = pages.value[step.value][0]
+    } else {
+        return
+    }
+}
 </script>
 
 <style lang="scss" scoped>
